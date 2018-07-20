@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.content;
+package com.example.taras.reminerapp.remind;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;

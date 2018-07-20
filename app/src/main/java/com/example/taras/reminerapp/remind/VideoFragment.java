@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.content;
+package com.example.taras.reminerapp.remind;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,23 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taras.reminerapp.R;
-import com.example.taras.reminerapp.databinding.FragmentNewsBinding;
+import com.example.taras.reminerapp.databinding.FragmentVideoBinding;
 
 /**
  * Created by Taras Koloshmatin on 19.07.2018
  */
-public class NewsFragment extends Fragment {
+public class VideoFragment extends Fragment {
 
-    private FragmentNewsBinding mBinding;
+    private FragmentVideoBinding mBinding;
 
-    public static NewsFragment newInstance() {
-        return new NewsFragment();
+    public static VideoFragment newInstance() {
+        return new VideoFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_video, container, false);
         return mBinding.getRoot();
     }
 
