@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.remind;
+package com.example.taras.reminerapp.content;
 
 import android.support.v4.app.Fragment;
 

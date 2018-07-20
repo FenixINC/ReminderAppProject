@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,9 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.taras.reminerapp.remind.EventFragment;
-import com.example.taras.reminerapp.remind.NewsFragment;
-import com.example.taras.reminerapp.remind.VideoFragment;
+import com.example.taras.reminerapp.content.EventFragment;
+import com.example.taras.reminerapp.content.NewsFragment;
+import com.example.taras.reminerapp.content.VideoFragment;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity
@@ -50,10 +51,16 @@ public class MainActivity extends AppCompatActivity
                 .add("Video", VideoFragment.newInstance());
         mBinding.viewPager.setAdapter(adapter);
         mBinding.tabs.setupWithViewPager(mBinding.viewPager);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content, NewsFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
     }
 
-    private void setNotificationTab(int position) {
-        mBinding.viewPager.setCurrentItem(position);
+    private Fragment getNotificationTab(PageAdapter adapter, int position) {
+//        mBinding.viewPager.setCurrentItem(position);
+        return adapter.getItem(position);
     }
 
     @Override

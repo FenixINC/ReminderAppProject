@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.remind;
+package com.example.taras.reminerapp.content;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,14 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taras.reminerapp.R;
-import com.example.taras.reminerapp.databinding.FragmentEventBinding;
+import com.example.taras.reminerapp.databinding.FragmentContentBinding;
 
 /**
  * Created by Taras Koloshmatin on 19.07.2018
  */
 public class EventFragment extends Fragment {
 
-    private FragmentEventBinding mBinding;
+    private FragmentContentBinding mBinding;
 
     public static EventFragment newInstance() {
         return new EventFragment();
@@ -26,7 +26,7 @@ public class EventFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_event, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_content, container, false);
         return mBinding.getRoot();
     }
 

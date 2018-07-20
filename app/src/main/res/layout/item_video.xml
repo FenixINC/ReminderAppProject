@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.example.taras.reminerapp.db.model.Video" />
+
+        <variable
+            name="clickListener"
+            type="com.example.taras.reminerapp.content.OnRemindClickListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onModelClick(model)}"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{model.title}"
+            android:textColor="@color/text"
+            android:textSize="16sp"
+            tools:text="Title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{model.description}"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Description" />
+
+    </LinearLayout>
+</layout>

@@ -1,12 +1,11 @@
 package com.example.taras.reminerapp.db.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Created by Taras Koloshmatin on 20.07.2018
  */
-public class Remind implements Parcelable {
+public class Video extends Remind {
 
     public int id;
 
@@ -14,28 +13,23 @@ public class Remind implements Parcelable {
 
     public String description;
 
-
-    protected Remind(Parcel in) {
+    protected Video(Parcel in) {
         id = in.readInt();
         title = in.readString();
         description = in.readString();
     }
 
-    public static final Creator<Remind> CREATOR = new Creator<Remind>() {
+    public static final Creator<Video> CREATOR = new Creator<Video>() {
         @Override
-        public Remind createFromParcel(Parcel in) {
-            return new Remind(in);
+        public Video createFromParcel(Parcel in) {
+            return new Video(in);
         }
 
         @Override
-        public Remind[] newArray(int size) {
-            return new Remind[size];
+        public Video[] newArray(int size) {
+            return new Video[size];
         }
     };
-
-    public Remind() {
-
-    }
 
     @Override
     public int describeContents() {
