@@ -37,10 +37,10 @@
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:tabIndicatorColor="@color/white"
-                    app:tabIndicatorHeight="6dp"
+                    app:tabIndicatorColor="@color/yellow"
+                    app:tabIndicatorHeight="2dp"
                     app:tabSelectedTextColor="@color/white"
-                    app:tabTextColor="#fff000" />
+                    app:tabTextColor="#c7c6c6" />
 
             </android.support.design.widget.AppBarLayout>
 
@@ -49,13 +49,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@android:drawable/ic_dialog_email" />
+                app:srcCompat="@android:drawable/presence_away" />
 
         </android.support.design.widget.CoordinatorLayout>
 

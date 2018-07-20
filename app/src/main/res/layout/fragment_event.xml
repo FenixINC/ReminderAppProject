@@ -5,5 +5,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Fragment 1" />
+        android:text="Fragment Event" />
 </layout>

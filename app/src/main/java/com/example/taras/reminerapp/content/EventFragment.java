@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp;
+package com.example.taras.reminerapp.content;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -9,22 +9,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.taras.reminerapp.databinding.Fragment1Binding;
+import com.example.taras.reminerapp.R;
+import com.example.taras.reminerapp.databinding.FragmentEventBinding;
 
 /**
  * Created by Taras Koloshmatin on 19.07.2018
  */
-public class Fragment1 extends Fragment {
+public class EventFragment extends Fragment {
 
-    public static Fragment1 getInstance() {
-        return new Fragment1();
+    private FragmentEventBinding mBinding;
+
+    public static EventFragment newInstance() {
+        return new EventFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Fragment1Binding binding = DataBindingUtil.inflate(inflater, R.layout.fragment1, container, false);
-        return binding.getRoot();
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_event, container, false);
+        return mBinding.getRoot();
     }
 
     @Override

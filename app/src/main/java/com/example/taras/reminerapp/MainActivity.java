@@ -15,6 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.taras.reminerapp.content.EventFragment;
+import com.example.taras.reminerapp.content.NewsFragment;
+import com.example.taras.reminerapp.content.VideoFragment;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity
@@ -49,9 +52,9 @@ public class MainActivity extends AppCompatActivity
 
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
         adapter
-                .add("News", Fragment1.getInstance())
-                .add("Events", Fragment1.getInstance())
-                .add("Video", Fragment1.getInstance());
+                .add("News", NewsFragment.newInstance())
+                .add("Events", EventFragment.newInstance())
+                .add("Video", VideoFragment.newInstance());
         mBinding.viewPager.setAdapter(adapter);
         mBinding.tabs.setupWithViewPager(mBinding.viewPager);
     }
