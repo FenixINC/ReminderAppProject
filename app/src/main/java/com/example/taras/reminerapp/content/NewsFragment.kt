@@ -44,7 +44,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         val rv: RecyclerView = mBinding.recyclerView
-        rv.layoutManager = LinearLayoutManager(activity!!)
+        rv.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager?
         rv.setHasFixedSize(true)
         rv.adapter = mAdapter
 

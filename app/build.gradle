@@ -57,6 +57,7 @@ dependencies {
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
 
+    implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.mindorks.android:placeholderview:1.0.3'
     annotationProcessor 'com.mindorks.android:placeholderview-compiler:1.0.3'
 
