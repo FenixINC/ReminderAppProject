@@ -37,9 +37,9 @@ public class ContentFragment extends Fragment {
 
 //        PageAdapter adapter = new PageAdapter(getChildFragmentManager());
 //        adapter
-//                .add("News", NewsFragment.newInstance())
-//                .add("Events", EventFragment.newInstance())
-//                .add("Video", VideoFragment.newInstance());
+//                .add("News", NewsFragmentJava.newInstance())
+//                .add("Events", EventFragmentJava.newInstance())
+//                .add("Video", VideoFragmentJava.newInstance());
 //        mBinding.viewPager.setAdapter(adapter);
 //        mBinding.tabs.setupWithViewPager(mBinding.viewPager);
     }

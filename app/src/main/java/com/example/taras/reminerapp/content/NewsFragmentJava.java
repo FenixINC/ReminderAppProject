@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.taras.reminerapp.R;
 import com.example.taras.reminerapp.databinding.FragmentContentBinding;
@@ -21,13 +22,13 @@ import java.util.ArrayList;
 /**
  * Created by Taras Koloshmatin on 19.07.2018
  */
-public class NewsFragment extends Fragment implements OnRemindClickListener {
+public class NewsFragmentJava extends Fragment implements OnRemindClickListener {
 
     private FragmentContentBinding mBinding;
     private ContentAdapter mAdapter;
 
-    public static NewsFragment newInstance() {
-        return new NewsFragment();
+    public static NewsFragmentJava newInstance() {
+        return new NewsFragmentJava();
     }
 
     @Nullable
@@ -60,6 +61,6 @@ public class NewsFragment extends Fragment implements OnRemindClickListener {
 
     @Override
     public void onModelClick(Remind model) {
-
+        Toast.makeText(getContext(), model.title, Toast.LENGTH_LONG).show();
     }
 }

@@ -15,7 +15,8 @@ import android.view.MenuItem;
 
 import com.example.taras.reminerapp.content.EventFragment;
 import com.example.taras.reminerapp.content.NewsFragment;
-import com.example.taras.reminerapp.content.VideoFragment;
+import com.example.taras.reminerapp.content.NewsFragmentJava;
+import com.example.taras.reminerapp.content.VideoFragmentJava;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Reminder");
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         adapter
                 .add("News", NewsFragment.newInstance())
                 .add("Events", EventFragment.newInstance())
-                .add("Video", VideoFragment.newInstance());
+                .add("Video", VideoFragmentJava.newInstance());
         mBinding.viewPager.setAdapter(adapter);
         mBinding.tabs.setupWithViewPager(mBinding.viewPager);
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_search:
                 //
                 break;
         }

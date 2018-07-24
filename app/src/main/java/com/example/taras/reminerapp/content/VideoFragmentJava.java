@@ -15,12 +15,12 @@ import com.example.taras.reminerapp.databinding.FragmentContentBinding;
 /**
  * Created by Taras Koloshmatin on 19.07.2018
  */
-public class EventFragment extends Fragment {
+public class VideoFragmentJava extends Fragment {
 
     private FragmentContentBinding mBinding;
 
-    public static EventFragment newInstance() {
-        return new EventFragment();
+    public static VideoFragmentJava newInstance() {
+        return new VideoFragmentJava();
     }
 
     @Nullable
