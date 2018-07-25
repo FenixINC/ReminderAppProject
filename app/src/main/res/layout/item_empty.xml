@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.example.taras.reminerapp.db.model.Remind" />
+
+        <variable
+            name="clickListener"
+            type="com.example.taras.reminerapp.content.OnRemindClickListener" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:onClick="@{() -> clickListener.onModelClick(model)}"
+        android:orientation="vertical"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="EMPTY!!!"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            tools:text="EMPTY!!!" />
+
+    </android.support.v7.widget.CardView>
+</layout>
