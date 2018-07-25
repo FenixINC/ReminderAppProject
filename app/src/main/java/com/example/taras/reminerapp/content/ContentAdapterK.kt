@@ -22,6 +22,10 @@ class ContentAdapterK(listener: OnRemindClickListener) : RecyclerView.Adapter<Co
     private var mListener: OnRemindClickListener = listener
 
     fun setList(list: List<Remind>) {
+        if (list == null) {
+            Timber.d("Null list")
+            return
+        }
         mList.clear()
         mList.addAll(list)
         notifyDataSetChanged()
