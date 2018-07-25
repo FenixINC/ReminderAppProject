@@ -21,7 +21,7 @@ import timber.log.Timber
 class NewsFragment : Fragment(), OnRemindClickListener {
 
     private lateinit var mBinding: FragmentContentBinding
-    private lateinit var mAdapter: ContentAdapter
+    private lateinit var mAdapter: ContentAdapterK
 
     companion object {
         @JvmStatic
@@ -36,7 +36,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_content, container, false)
-        mAdapter = ContentAdapter(this)
+        mAdapter = ContentAdapterK(this)
         return mBinding.root
     }
 
@@ -44,17 +44,17 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         val rv: RecyclerView = mBinding.recyclerView
-        rv.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager?
+        rv.layoutManager = LinearLayoutManager(activity?.applicationContext) as RecyclerView.LayoutManager?
         rv.setHasFixedSize(true)
         rv.adapter = mAdapter
 
-        var list: ArrayList<News> = ArrayList()
-        list.add(News("Title 1", "Description 1"))
-        list.add(News("Title 2", "Description 2"))
-        list.add(News("Title 3", "Description 3"))
-        list.add(News("Title 4", "Description 4"))
-        list.add(News("Title 5", "Description 5"))
-        list.add(News("Title 6", "Description 6"))
+        var list = listOf(
+                News("Title 1", "Description 1"),
+                News("Title 2", "Description 2"),
+                News("Title 3", "Description 3"),
+                News("Title 4", "Description 4"),
+                News("Title 5", "Description 5"),
+                News("Title 6", "Description 6"))
 
         mAdapter.setList(list)
     }
