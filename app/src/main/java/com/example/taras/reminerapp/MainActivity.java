@@ -17,6 +17,7 @@ import com.example.taras.reminerapp.content.EventFragment;
 import com.example.taras.reminerapp.content.NewsFragment;
 import com.example.taras.reminerapp.content.VideoFragmentJava;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
+import com.example.taras.reminerapp.db.AppDatabase;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppDatabase.getInstance();
+
         setTitle("Reminder");
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);

@@ -28,15 +28,15 @@ abstract class AppDatabase : RoomDatabase() {
         @Synchronized
         private fun newInstance(): AppDatabase {
             if (sInstance == null) {
-                sInstance = App.getInstance()?.let {
-                    Room.databaseBuilder(it, AppDatabase::class.java, "Reminder-Database")
-                            .fallbackToDestructiveMigration()
-                            .build()
-                }
+                sInstance = Room.databaseBuilder(App.getInstance(), AppDatabase::class.java, "Reminder-Database")
+                        .fallbackToDestructiveMigration()
+                        .build()
+
             }
             return sInstance!!
         }
 
+        @JvmStatic
         fun getInstance(): AppDatabase {
             if (sInstance == null) {
                 newInstance()

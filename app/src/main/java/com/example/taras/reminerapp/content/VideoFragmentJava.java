@@ -1,6 +1,5 @@
 package com.example.taras.reminerapp.content;
 
-import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;

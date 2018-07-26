@@ -30,12 +30,13 @@ public class Remind implements Parcelable {
     @SerializedName("description")
     public String description;
 
-    @ColumnInfo(name = "reminder_date")
-    @SerializedName("reminder_date")
+    @ColumnInfo(name = "remind_date")
+    @SerializedName("remind_date")
     public String date;
 
     @ColumnInfo(name = "type_remind")
-    public String typRemind;
+    @SerializedName("type_remind")
+    public String typeRemind;
 
     public Remind() {
     }
@@ -55,7 +56,7 @@ public class Remind implements Parcelable {
         title = in.readString();
         description = in.readString();
         date = in.readString();
-        typRemind = in.readString();
+        typeRemind = in.readString();
     }
 
     public static final Creator<Remind> CREATOR = new Creator<Remind>() {
@@ -87,6 +88,6 @@ public class Remind implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeString(date);
-        parcel.writeString(typRemind);
+        parcel.writeString(typeRemind);
     }
 }
