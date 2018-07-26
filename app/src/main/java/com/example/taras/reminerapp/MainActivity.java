@@ -15,7 +15,6 @@ import android.view.MenuItem;
 
 import com.example.taras.reminerapp.content.EventFragment;
 import com.example.taras.reminerapp.content.NewsFragment;
-import com.example.taras.reminerapp.content.NewsFragmentJava;
 import com.example.taras.reminerapp.content.VideoFragmentJava;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 
@@ -38,6 +37,12 @@ public class MainActivity extends AppCompatActivity
 
             // start AddRemindActivity:
         });
+
+
+        // Create Intent in Kotlin:
+//        val intent = Intent(this@MainActivity, CustomersActivity::class.java)
+//        startActivity(intent)
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout,
                 toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

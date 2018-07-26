@@ -11,9 +11,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
-import com.example.taras.reminerapp.db.model.News
 import com.example.taras.reminerapp.db.model.Remind
+import com.example.taras.reminerapp.db.service.RemindService
+import com.example.taras.reminerapp.db.service.ServiceGenerator
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import retrofit2.Call
+import retrofit2.Response
 import timber.log.Timber
+import java.lang.ref.WeakReference
 
 /**
  * Created by Taras Koloshmatin on 24.07.2018
@@ -21,7 +27,7 @@ import timber.log.Timber
 class NewsFragment : Fragment(), OnRemindClickListener {
 
     private lateinit var mBinding: FragmentContentBinding
-    private lateinit var mAdapter: ContentAdapterK
+    private lateinit var mAdapter: ContentAdapter
 
     companion object {
         @JvmStatic
@@ -36,7 +42,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_content, container, false)
-        mAdapter = ContentAdapterK(this)
+        mAdapter = ContentAdapter(this)
         return mBinding.root
     }
 
@@ -48,19 +54,34 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         rv.setHasFixedSize(true)
         rv.adapter = mAdapter
 
-        var list = listOf(
-                News("Title 1", "Description 1"),
-                News("Title 2", "Description 2"),
-                News("Title 3", "Description 3"),
-                News("Title 4", "Description 4"),
-                News("Title 5", "Description 5"),
-                News("Title 6", "Description 6"))
-
-        mAdapter.setList(list)
+        startNewsTask(this)
     }
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: $model")
         Toast.makeText(context, model?.title, Toast.LENGTH_LONG).show()
+    }
+
+    private fun startNewsTask(fragment: NewsFragment) {
+        doAsync {
+            val weakReference: WeakReference<NewsFragment> = WeakReference(fragment)
+            var list: List<Remind> = ArrayList<Remind>()
+            var remind: Remind
+
+            val frag: NewsFragment = weakReference.get()!!
+            if (frag != null && frag.isVisible) {
+                val call: Call<Remind> = ServiceGenerator.createService(RemindService::class.java).getById(2)
+                val response: Response<Remind> = call.execute()
+
+                if (response.isSuccessful) {
+                    remind = response.body()!!
+                    list = listOf(remind)
+                }
+
+                uiThread {
+                    mAdapter.setList(list)
+                }
+            }
+        }
     }
 }

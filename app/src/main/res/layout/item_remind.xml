@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.example.taras.reminerapp.db.model.News" />
+            type="com.example.taras.reminerapp.db.model.Remind" />
 
         <variable
             name="clickListener"

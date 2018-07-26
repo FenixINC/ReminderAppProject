@@ -9,7 +9,12 @@ import timber.log.Timber
  */
 class App : Application() {
 
-    private var sInstance: App? = null
+    companion object AppInstance {
+        private var sInstance: App? = null
+        fun getInstance(): App? {
+            return sInstance
+        }
+    }
 
     fun App() {
         sInstance = this
@@ -23,10 +28,6 @@ class App : Application() {
         } else {
             Timber.plant(NoLoggingTree())
         }
-    }
-
-    fun getInstance(): App? {
-        return sInstance
     }
 
     inner class NoLoggingTree : Timber.Tree() {
