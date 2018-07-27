@@ -6,6 +6,7 @@ package com.example.taras.reminerapp.db
 class Constants {
     companion object {
         const val BASE_URL = "http://192.168.0.115:8080"
+//        const val BASE_URL = "http://:8080"
 
         //--- TYPE_REMIND:
         const val TYPE_NEWS = "type_news"

@@ -15,4 +15,7 @@ interface RemindService {
 
     @GET("/reminder/get-by-id")
     fun getById(@Query("id") id: Int): Call<Remind>
+
+    @GET("/reminder/get-by-type")
+    fun getListByType(@Query("type") typeRemind: String): Call<List<Remind>>
 }

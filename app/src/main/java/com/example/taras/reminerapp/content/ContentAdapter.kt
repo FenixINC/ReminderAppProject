@@ -71,10 +71,11 @@ class ContentAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<Con
 //            binding.executePendingBindings()
         }
     }
-//
-//    class NewsHolder(val bindingNews: ItemNewsBinding) : ViewHolder(bindingNews) {
-//        override fun bind(data: Any, listener: OnRemindClickListener) {
-//            super.bind(data, listener)
+
+//    class NewsHolder(val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
+//        fun bind(data: Any, listener: OnRemindClickListener) {
+//            binding.setVariable(BR.model, data)
+//            binding.setVariable(BR.clickListener, listener)
 //        }
 //    }
 }

@@ -55,7 +55,8 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         rv.setHasFixedSize(true)
         rv.adapter = mAdapter
 
-        getNewsTask(this)
+//        getNewsTask()
+        refreshNewsTask()
     }
 
     override fun onModelClick(model: Remind?) {
@@ -64,7 +65,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
     }
 
 
-    private fun getNewsTask(fragment: NewsFragment) {
+    private fun getNewsTask() {
         doAsync {
             val database: AppDatabase = AppDatabase.getInstance()
             val list: List<Remind> = database.remindDao().getListByType(Constants.TYPE_NEWS)
@@ -74,21 +75,20 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         }
     }
 
-    private fun refreshNewsTask(fragment: NewsFragment) {
+    private fun refreshNewsTask() {
         doAsync {
-            val weakReference: WeakReference<NewsFragment> = WeakReference(fragment)
+            val weakReference: WeakReference<NewsFragment> = WeakReference(this@NewsFragment)
             var list: List<Remind> = ArrayList<Remind>()
 
-            val frag: NewsFragment = weakReference.get()!!
-            if (frag != null && frag.isVisible) {
-                //TODO: create here and on a server getNewsList by TYPE_REMIND!
-                val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java).getList().execute()
-
+            if (weakReference != null && weakReference.get()!!.isVisible) {
+                val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
+                        .getListByType(Constants.TYPE_NEWS).execute()
                 if (response.isSuccessful) {
                     list = response.body()!!
-                    AppDatabase.getInstance().remindDao().delete()
+                    AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_NEWS)
+                    AppDatabase.getInstance().remindDao().insert(list)
                 } else {
-                    Timber.d("Error loading reminds!", response.code())
+                    Timber.d("Error loading reminds: ${response.code()}")
                 }
 
                 uiThread {

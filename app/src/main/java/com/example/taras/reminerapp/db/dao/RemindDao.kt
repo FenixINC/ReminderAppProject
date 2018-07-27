@@ -25,7 +25,9 @@ interface RemindDao {
     @Query("DELETE FROM tblRemind")
     fun delete()
 
-    // Queries:
+    @Query("DELETE FROM tblRemind WHERE type_remind = :typeRemind")
+    fun deleteByType(typeRemind: String)
+
     @Query("SELECT * FROM tblRemind")
     fun getList(): List<Remind>
 

@@ -31,11 +31,11 @@ public class Remind implements Parcelable {
     public String description;
 
     @ColumnInfo(name = "remind_date")
-    @SerializedName("remind_date")
+    @SerializedName("remindDate")
     public String date;
 
     @ColumnInfo(name = "type_remind")
-    @SerializedName("type_remind")
+    @SerializedName("typeRemind")
     public String typeRemind;
 
     public Remind() {

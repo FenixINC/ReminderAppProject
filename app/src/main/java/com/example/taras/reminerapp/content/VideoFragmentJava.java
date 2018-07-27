@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import com.example.taras.reminerapp.R;
 import com.example.taras.reminerapp.databinding.FragmentContentBinding;
+import com.example.taras.reminerapp.db.AppDatabase;
+import com.example.taras.reminerapp.db.Constants;
 import com.example.taras.reminerapp.db.model.Remind;
 import com.example.taras.reminerapp.db.service.RemindService;
 import com.example.taras.reminerapp.db.service.ServiceGenerator;
@@ -86,17 +88,20 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Call<List<Remind>> call = ServiceGenerator.SERVICE.createService(RemindService.class).getList();
+            Call<List<Remind>> call = ServiceGenerator.SERVICE.createService(RemindService.class)
+                    .getListByType(Constants.TYPE_VIDEO);
             try {
                 Response<List<Remind>> response = call.execute();
                 if (response.isSuccessful()) {
                     List<Remind> list = response.body();
                     if (list != null) {
+                        AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_VIDEO);
+                        AppDatabase.getInstance().remindDao().insert(list);
                         mList.addAll(list);
                     }
                 }
             } catch (IOException e) {
-                Timber.e("Failed load reminds!", e);
+                Timber.e("Failed load reminds! " + e.getMessage());
             }
             return null;
         }
