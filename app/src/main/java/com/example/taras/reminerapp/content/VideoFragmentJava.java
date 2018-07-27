@@ -1,6 +1,5 @@
 package com.example.taras.reminerapp.content;
 
-import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.taras.reminerapp.R;
 import com.example.taras.reminerapp.databinding.FragmentContentBinding;
 import com.example.taras.reminerapp.db.AppDatabase;
 import com.example.taras.reminerapp.db.Constants;
@@ -44,7 +42,7 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_content, container, false);
+        mBinding = FragmentContentBinding.inflate(inflater, container, false);
         mAdapter = new ContentAdapter(this);
         return mBinding.getRoot();
     }
@@ -69,6 +67,7 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
 
     // Task:
     private void setList(List<Remind> list) {
+        mBinding.swipeRefresh.setRefreshing(false);
         mAdapter.setList(list);
     }
 

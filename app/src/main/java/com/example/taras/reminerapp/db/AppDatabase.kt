@@ -16,7 +16,7 @@ import com.example.taras.reminerapp.db.model.Remind
 //    (News::class),
 //    (Event::class),
 //    (Video::class)
-], version = 2, exportSchema = false)
+], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun remindDao(): RemindDao
@@ -31,7 +31,6 @@ abstract class AppDatabase : RoomDatabase() {
                 sInstance = Room.databaseBuilder(App.getInstance(), AppDatabase::class.java, "Reminder-Database")
                         .fallbackToDestructiveMigration()
                         .build()
-
             }
             return sInstance!!
         }

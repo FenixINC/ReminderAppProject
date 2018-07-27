@@ -14,10 +14,11 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "tblRemind")
 public class Remind implements Parcelable {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "local_id")
-    public Long localId;
+//    @PrimaryKey(autoGenerate = true)
+//    @ColumnInfo(name = "local_id")
+//    public Long localId;
 
+    @PrimaryKey
     @ColumnInfo(name = "id")
     @SerializedName("id")
     public int id;
@@ -47,11 +48,6 @@ public class Remind implements Parcelable {
     }
 
     protected Remind(Parcel in) {
-        if (in.readByte() == 0) {
-            localId = null;
-        } else {
-            localId = in.readLong();
-        }
         id = in.readInt();
         title = in.readString();
         description = in.readString();
@@ -78,12 +74,6 @@ public class Remind implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        if (localId == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeLong(localId);
-        }
         parcel.writeInt(id);
         parcel.writeString(title);
         parcel.writeString(description);

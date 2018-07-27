@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/icon_advanced_search"
-        android:orderInCategory="1"
-        android:title="@string/menu_search"
-        app:showAsAction="always" />
+    <group>
+        <item
+            android:id="@+id/action_search"
+            android:icon="@drawable/icon_advanced_search"
+            android:orderInCategory="1"
+            android:title="@string/menu_search"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/action_create_remind"
+            android:icon="@drawable/icon_add_remind"
+            android:orderInCategory="1"
+            android:title="@string/menu_create_remind"
+            app:showAsAction="ifRoom" />
+    </group>
 </menu>

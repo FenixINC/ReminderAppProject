@@ -1,6 +1,5 @@
 package com.example.taras.reminerapp.content
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
 import com.example.taras.reminerapp.db.AppDatabase
 import com.example.taras.reminerapp.db.Constants
@@ -20,6 +18,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Response
 import timber.log.Timber
+import java.io.IOException
 import java.lang.ref.WeakReference
 
 /**
@@ -42,7 +41,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_content, container, false)
+        mBinding = FragmentContentBinding.inflate(inflater, container, false)
         mAdapter = ContentAdapter(this)
         return mBinding.root
     }
@@ -55,7 +54,10 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         rv.setHasFixedSize(true)
         rv.adapter = mAdapter
 
-//        getNewsTask()
+        mBinding.swipeRefresh.setOnRefreshListener {
+            refreshNewsTask()
+        }
+
         refreshNewsTask()
     }
 
@@ -63,7 +65,6 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         Timber.d("Clicked model: $model")
         Toast.makeText(context, model?.title, Toast.LENGTH_LONG).show()
     }
-
 
     private fun getNewsTask() {
         doAsync {
@@ -76,23 +77,35 @@ class NewsFragment : Fragment(), OnRemindClickListener {
     }
 
     private fun refreshNewsTask() {
+
         doAsync {
             val weakReference: WeakReference<NewsFragment> = WeakReference(this@NewsFragment)
-            var list: List<Remind> = ArrayList<Remind>()
+            var list: List<Remind>? = null
 
             if (weakReference != null && weakReference.get()!!.isVisible) {
-                val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
-                        .getListByType(Constants.TYPE_NEWS).execute()
-                if (response.isSuccessful) {
-                    list = response.body()!!
-                    AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_NEWS)
-                    AppDatabase.getInstance().remindDao().insert(list)
-                } else {
-                    Timber.d("Error loading reminds: ${response.code()}")
+                try {
+                    val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
+                            .getListByType(Constants.TYPE_NEWS).execute()
+                    if (response.isSuccessful) {
+                        list = response.body()!!
+                        AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_NEWS)
+                        AppDatabase.getInstance().remindDao().insert(list)
+                    } else {
+                        Timber.d("Error loading reminds: ${response.code()}")
+                    }
+                } catch (e: IOException) {
+                    Timber.e("Failed load reminds! ${e.message}")
                 }
 
-                uiThread {
+            } else {
+                Timber.d("WeakReference not or not visible!")
+            }
+            uiThread {
+                mBinding.swipeRefresh.isRefreshing = false
+                if (list != null) {
                     mAdapter.setList(list)
+                } else {
+                    Timber.d("Null list!")
                 }
             }
         }

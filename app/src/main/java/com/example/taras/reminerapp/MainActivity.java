@@ -1,6 +1,7 @@
 package com.example.taras.reminerapp;
 
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,6 +18,10 @@ import com.example.taras.reminerapp.content.NewsFragment;
 import com.example.taras.reminerapp.content.VideoFragmentJava;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 import com.example.taras.reminerapp.db.AppDatabase;
+import com.example.taras.reminerapp.db.model.Remind;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,28 +32,15 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setTitle("Reminder");
+
         AppDatabase.getInstance();
 
-        setTitle("Reminder");
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        mBinding.fab.setOnClickListener(view -> {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
-            // start AddRemindActivity:
-        });
-
-
-        // Create Intent in Kotlin:
-//        val intent = Intent(this@MainActivity, CustomersActivity::class.java)
-//        startActivity(intent)
-
+        setSupportActionBar(mBinding.toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout,
-                toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                mBinding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mBinding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -86,7 +77,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
@@ -95,7 +85,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                //
+                // Global search
+                break;
+            case R.id.action_create_remind:
+                // CreateRemindActivity
                 break;
         }
 
@@ -123,5 +116,38 @@ public class MainActivity extends AppCompatActivity
         mBinding.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    public static class Task extends AsyncTask<Void, Void, List<Remind>> {
+
+        private WeakReference<OnRemindListener> mListener;
+
+        public interface OnRemindListener {
+            void onGetReminds(List<Remind> list);
+        }
+
+        private Task(OnRemindListener listener) {
+            mListener = new WeakReference<>(listener);
+        }
+
+        public static void requestTask(OnRemindListener listener) {
+            new Task(listener).execute();
+        }
+
+        @Override
+        protected List<Remind> doInBackground(Void... voids) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Remind> list) {
+            if (mListener != null) {
+                OnRemindListener listener = mListener.get();
+                if (listener != null) {
+                    listener.onGetReminds(list);
+                }
+            }
+        }
     }
 }
