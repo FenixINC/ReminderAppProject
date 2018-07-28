@@ -1,5 +1,6 @@
 package com.example.taras.reminerapp;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,10 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.taras.reminerapp.navigation.MainRemindFragment;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 import com.example.taras.reminerapp.db.AppDatabase;
 import com.example.taras.reminerapp.db.model.Remind;
+import com.example.taras.reminerapp.navigation.MainRemindFragment;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -104,6 +105,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.logout) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         }
         mBinding.drawerLayout.closeDrawer(GravityCompat.START);
 
