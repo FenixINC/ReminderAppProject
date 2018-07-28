@@ -13,9 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.taras.reminerapp.content.EventFragment;
-import com.example.taras.reminerapp.content.NewsFragment;
-import com.example.taras.reminerapp.content.VideoFragmentJava;
+import com.example.taras.reminerapp.navigation.RemindFragment;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 import com.example.taras.reminerapp.db.AppDatabase;
 import com.example.taras.reminerapp.db.model.Remind;
@@ -37,6 +35,9 @@ public class MainActivity extends AppCompatActivity
 
         AppDatabase.getInstance();
 
+        //TODO: IDEAS: 1)make reminds to star like favorite; 2) make on main activity 3 square vertical buttons: "My Reminds", "Content Reminds", "Calendar Reminds - Coming Soon";
+        //TODO:
+
         setSupportActionBar(mBinding.toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout,
@@ -46,17 +47,16 @@ public class MainActivity extends AppCompatActivity
 
         mBinding.navView.setNavigationItemSelectedListener(this);
 
-        PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
-        adapter
-                .add("News", NewsFragment.newInstance())
-                .add("Events", EventFragment.newInstance())
-                .add("Video", VideoFragmentJava.newInstance());
-        mBinding.viewPager.setAdapter(adapter);
-        mBinding.tabs.setupWithViewPager(mBinding.viewPager);
+//        PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
+//        adapter
+//                .add("News", NewsFragment.newInstance())
+//                .add("Events", EventFragment.newInstance())
+//                .add("Video", VideoFragmentJava.newInstance());
+//        mBinding.viewPager.setAdapter(adapter);
+//        mBinding.tabs.setupWithViewPager(mBinding.viewPager);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, NewsFragment.newInstance())
-                .addToBackStack(null)
+                .replace(R.id.content, RemindFragment.newInstance())
                 .commit();
     }
 

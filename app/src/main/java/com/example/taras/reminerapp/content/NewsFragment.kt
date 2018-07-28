@@ -29,6 +29,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
     private lateinit var mBinding: FragmentContentBinding
     private lateinit var mAdapter: ContentAdapter
 
+
     companion object {
         @JvmStatic
         fun newInstance(): NewsFragment {
@@ -63,7 +64,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: $model")
-        Toast.makeText(context, model?.title, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, model?.title, Toast.LENGTH_SHORT).show()
     }
 
     private fun getNewsTask() {
