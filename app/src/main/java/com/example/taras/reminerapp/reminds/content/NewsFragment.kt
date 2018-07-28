@@ -63,7 +63,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
             refreshNewsTask()
         }
 
-        refreshNewsTask()
+        getNewsTask()
     }
 
     override fun onModelClick(model: Remind?) {
@@ -74,8 +74,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
 
     private fun getNewsTask() {
         doAsync {
-            val database: AppDatabase = AppDatabase.getInstance()
-            val list: List<Remind> = database.remindDao().getListByType(Constants.TYPE_NEWS)
+            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_NEWS)
             uiThread {
                 mAdapter.setList(list)
             }
@@ -91,6 +90,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
                 try {
                     val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
                             .getListByType(Constants.TYPE_NEWS).execute()
+
                     if (response.isSuccessful) {
                         list = response.body()!!
                         AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_NEWS)

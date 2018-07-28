@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
-import com.example.taras.reminerapp.db.AppDatabase;
 import com.example.taras.reminerapp.db.model.Remind;
 import com.example.taras.reminerapp.navigation.MainRemindFragment;
 
@@ -33,8 +32,6 @@ public class MainActivity extends AppCompatActivity
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setTitle("Reminder");
-
-        AppDatabase.getInstance();
 
         //TODO: IDEAS: 1)make reminds to star like favorite; 2) make on main activity 3 square vertical buttons: "My Reminds", "Content Reminds", "Calendar Reminds - Coming Soon";
         //TODO:

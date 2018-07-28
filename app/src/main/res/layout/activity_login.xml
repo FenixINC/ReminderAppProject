@@ -1,30 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="showProgress"
+            type="boolean" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#36b1ff"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="120dp"-->
-        <!--android:src="@drawable/logo_remind" />-->
-
-        <com.hanks.passcodeview.PasscodeView
-            android:id="@+id/password"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#36b1ff"
-            app:correctStateColor="#71bb4d"
-            app:firstInputTip="Enter a password"
-            app:normalStateColor="#ffffff"
-            app:numberTextColor="#222222"
-            app:passcodeLength="5"
-            app:passcodeViewType="set_passcode"
-            app:wrongStateColor="#ea2b46" />
-    </LinearLayout>
+            android:orientation="vertical">
+
+            <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="120dp"-->
+            <!--android:src="@drawable/logo_remind" />-->
+
+            <com.hanks.passcodeview.PasscodeView
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#36b1ff"
+                app:correctStateColor="#71bb4d"
+                app:firstInputTip="Enter a password"
+                app:normalStateColor="#ffffff"
+                app:numberTextColor="#222222"
+                app:passcodeLength="5"
+                app:passcodeViewType="set_passcode"
+                app:wrongStateColor="#ea2b46" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/show_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#B2000000"
+            android:visibility="@{showProgress ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </FrameLayout>
 
 </layout>

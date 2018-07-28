@@ -11,10 +11,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
+import com.example.taras.reminerapp.db.AppDatabase
+import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Remind
-import com.example.taras.reminerapp.reminds.RemindAdapter
+import com.example.taras.reminerapp.db.service.RemindService
+import com.example.taras.reminerapp.db.service.ServiceGenerator
 import com.example.taras.reminerapp.reminds.OnRemindClickListener
+import com.example.taras.reminerapp.reminds.RemindAdapter
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import retrofit2.Response
 import timber.log.Timber
+import java.io.IOException
+import java.lang.ref.WeakReference
 
 /**
  * Created by Taras Koloshmatin on 24.07.2018
@@ -51,19 +60,59 @@ class EventFragment : Fragment(), OnRemindClickListener {
         rv.setHasFixedSize(true)
         rv.adapter = mAdapter
 
-//        var list = listOf(
-//                Remind("Event 1", "Description 1"),
-//                Event("Event 2", "Description 2"),
-//                Event("Event 3", "Description 3"),
-//                Event("Event 4", "Description 4"),
-//                Event("Event 5", "Description 5"),
-//                Event("Event 6", "Description 6"))
+        mBinding.swipeRefresh.setOnRefreshListener {
+            refreshEventTask()
+        }
 
-//        mAdapter.setList(list)
+        getEventsTask()
     }
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: $model")
         Toast.makeText(context, model?.title, Toast.LENGTH_LONG).show()
+    }
+
+    private fun getEventsTask() {
+        doAsync {
+            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_EVENT)
+            uiThread {
+                mAdapter.setList(list)
+            }
+        }
+    }
+
+    private fun refreshEventTask() {
+        doAsync {
+            val weakReference: WeakReference<EventFragment> = WeakReference(this@EventFragment)
+            var list: List<Remind>? = null
+
+            if (weakReference != null && weakReference.get()!!.isVisible) {
+                try {
+                    val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
+                            .getListByType(Constants.TYPE_EVENT).execute()
+
+                    if (response.isSuccessful) {
+                        list = response.body()!!
+                        AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_NEWS)
+                        AppDatabase.getInstance().remindDao().insert(list)
+                    } else {
+                        Timber.e("Error loading reminds: ${response.code()}")
+                    }
+                } catch (e: IOException) {
+                    Timber.e("Failed load reminds! ${e.message}")
+                }
+
+            } else {
+                Timber.d("WeakReference not or not visible!")
+            }
+            uiThread {
+                mBinding.swipeRefresh.isRefreshing = false
+                if (list != null) {
+                    mAdapter.setList(list)
+                } else {
+                    Timber.d("Null list!")
+                }
+            }
+        }
     }
 }
