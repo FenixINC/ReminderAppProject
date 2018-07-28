@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,7 +61,14 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
         rv.setHasFixedSize(true);
         rv.setAdapter(mAdapter);
 
-        Task.requestTask(VideoFragmentJava.this);
+        mBinding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RefreshVideosTask.requestTask(VideoFragmentJava.this);
+            }
+        });
+
+        GetVideosTask.requestTask(VideoFragmentJava.this);
     }
 
 
@@ -69,24 +77,49 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
 
     }
 
-    // Task:
+
     private void setList(List<Remind> list) {
         mBinding.swipeRefresh.setRefreshing(false);
         mAdapter.setList(list);
     }
 
-    private static class Task extends AsyncTask<Void, Void, Void> {
+    private static class GetVideosTask extends AsyncTask<Void, Void, List<Remind>> {
+
+        private WeakReference<VideoFragmentJava> mWeakref;
+
+        private GetVideosTask(VideoFragmentJava fragmentJava) {
+            mWeakref = new WeakReference<>(fragmentJava);
+        }
+
+        public static void requestTask(VideoFragmentJava fragmentJava) {
+            new GetVideosTask(fragmentJava).execute();
+        }
+
+        @Override
+        protected List<Remind> doInBackground(Void... voids) {
+            return AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_VIDEO);
+        }
+
+        @Override
+        protected void onPostExecute(List<Remind> list) {
+            if (mWeakref.get() != null && mWeakref.get().isVisible()) {
+                mWeakref.get().setList(list);
+            }
+        }
+    }
+
+    private static class RefreshVideosTask extends AsyncTask<Void, Void, Void> {
 
         private WeakReference<VideoFragmentJava> mWeakref;
         private List<Remind> mList = new ArrayList<>();
 
 
-        private Task(VideoFragmentJava fragment) {
+        private RefreshVideosTask(VideoFragmentJava fragment) {
             mWeakref = new WeakReference<>(fragment);
         }
 
         static void requestTask(VideoFragmentJava fragment) {
-            new Task(fragment).execute();
+            new RefreshVideosTask(fragment).execute();
         }
 
         @Override

@@ -5,11 +5,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.databinding.FragmentRemindBinding
 import com.example.taras.reminerapp.reminds.content.ContentRemindsFragment
 import com.example.taras.reminerapp.reminds.my.MyRemindsFragment
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
@@ -36,7 +36,7 @@ class MainRemindFragment : Fragment() {
 
         mBinding.myReminds.setOnClickListener { openFragment(MyRemindsFragment.newInstance()) }
         mBinding.contentReminds.setOnClickListener { openFragment(ContentRemindsFragment.newInstance()) }
-        mBinding.calendarReminds.setOnClickListener { Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show() }
+        mBinding.calendarReminds.setOnClickListener { toast("Not yet implemented") }
     }
 
     private fun openFragment(fragment: Fragment) {
