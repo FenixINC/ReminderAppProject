@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +23,13 @@
             </intent-filter>
         </activity>
 
-    </application>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".reminds.my.CreateRemindActivity"
+            android:theme="@style/AppTheme" />
+
+    </application>
 </manifest>

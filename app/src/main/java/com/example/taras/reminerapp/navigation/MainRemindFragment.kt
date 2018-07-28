@@ -7,21 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.taras.reminerapp.R
-import com.example.taras.reminerapp.reminds.MyRemindsFragment
 import com.example.taras.reminerapp.databinding.FragmentRemindBinding
+import com.example.taras.reminerapp.reminds.content.ContentRemindsFragment
+import com.example.taras.reminerapp.reminds.my.MyRemindsFragment
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
  */
-class RemindFragment : Fragment() {
+class MainRemindFragment : Fragment() {
 
     private lateinit var mBinding: FragmentRemindBinding
 
 
     companion object {
         @JvmStatic
-        fun newInstance(): RemindFragment {
-            return RemindFragment()
+        fun newInstance(): MainRemindFragment {
+            return MainRemindFragment()
         }
     }
 
@@ -34,7 +35,7 @@ class RemindFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mBinding.myReminds.setOnClickListener { openFragment(MyRemindsFragment.newInstance()) }
-        mBinding.contentReminds.setOnClickListener { Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show() }
+        mBinding.contentReminds.setOnClickListener { openFragment(ContentRemindsFragment.newInstance()) }
         mBinding.calendarReminds.setOnClickListener { Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show() }
     }
 

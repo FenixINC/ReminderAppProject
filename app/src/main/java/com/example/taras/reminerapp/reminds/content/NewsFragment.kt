@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.reminds.my
+package com.example.taras.reminerapp.reminds.content
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,8 +14,8 @@ import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Remind
 import com.example.taras.reminerapp.db.service.RemindService
 import com.example.taras.reminerapp.db.service.ServiceGenerator
-import com.example.taras.reminerapp.reminds.RemindAdapter
 import com.example.taras.reminerapp.reminds.OnRemindClickListener
+import com.example.taras.reminerapp.reminds.RemindAdapter
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Response
@@ -52,6 +52,8 @@ class NewsFragment : Fragment(), OnRemindClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mBinding.toolbar.visibility = View.GONE
+
         val rv: RecyclerView = mBinding.recyclerView
         rv.layoutManager = LinearLayoutManager(activity?.applicationContext) as RecyclerView.LayoutManager?
         rv.setHasFixedSize(true)
@@ -69,6 +71,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         Toast.makeText(context, model?.title, Toast.LENGTH_SHORT).show()
     }
 
+
     private fun getNewsTask() {
         doAsync {
             val database: AppDatabase = AppDatabase.getInstance()
@@ -80,7 +83,6 @@ class NewsFragment : Fragment(), OnRemindClickListener {
     }
 
     private fun refreshNewsTask() {
-
         doAsync {
             val weakReference: WeakReference<NewsFragment> = WeakReference(this@NewsFragment)
             var list: List<Remind>? = null
@@ -94,7 +96,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
                         AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_NEWS)
                         AppDatabase.getInstance().remindDao().insert(list)
                     } else {
-                        Timber.d("Error loading reminds: ${response.code()}")
+                        Timber.e("Error loading reminds: ${response.code()}")
                     }
                 } catch (e: IOException) {
                     Timber.e("Failed load reminds! ${e.message}")

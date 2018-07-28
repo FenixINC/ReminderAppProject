@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.reminds.my;
+package com.example.taras.reminerapp.reminds.content;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,8 +17,8 @@ import com.example.taras.reminerapp.db.Constants;
 import com.example.taras.reminerapp.db.model.Remind;
 import com.example.taras.reminerapp.db.service.RemindService;
 import com.example.taras.reminerapp.db.service.ServiceGenerator;
-import com.example.taras.reminerapp.reminds.RemindAdapter;
 import com.example.taras.reminerapp.reminds.OnRemindClickListener;
+import com.example.taras.reminerapp.reminds.RemindAdapter;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -52,6 +52,8 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mBinding.toolbar.setVisibility(View.GONE);
 
         RecyclerView rv = mBinding.recyclerView;
         rv.setLayoutManager(new LinearLayoutManager(getContext()));

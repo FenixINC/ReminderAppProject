@@ -1,29 +1,26 @@
-package com.example.taras.reminerapp.reminds
+package com.example.taras.reminerapp.reminds.content
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.taras.reminerapp.navigation.BaseFragment
+import com.example.taras.reminerapp.BaseFragment
 import com.example.taras.reminerapp.PageAdapter
 import com.example.taras.reminerapp.databinding.FragmentPagerBinding
-import com.example.taras.reminerapp.reminds.my.EventFragment
-import com.example.taras.reminerapp.reminds.my.NewsFragment
-import com.example.taras.reminerapp.reminds.my.VideoFragmentJava
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
  */
-class MyRemindsFragment : BaseFragment() {
+class ContentRemindsFragment : BaseFragment() {
 
-    lateinit var mBinding: FragmentPagerBinding
+    private lateinit var mBinding: FragmentPagerBinding
 
 
     companion object {
         @JvmStatic
-        fun newInstance(): MyRemindsFragment {
-            return MyRemindsFragment()
+        fun newInstance(): ContentRemindsFragment {
+            return ContentRemindsFragment()
         }
     }
 
@@ -40,9 +37,9 @@ class MyRemindsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle("My Reminds")
+        setTitle("News/Media Reminds")
 
-        var adapter = PageAdapter(childFragmentManager)
+        val adapter = PageAdapter(childFragmentManager)
         adapter
                 .add("News", NewsFragment.newInstance())
                 .add("Events", EventFragment.newInstance())
@@ -52,6 +49,5 @@ class MyRemindsFragment : BaseFragment() {
         mBinding.tabs.tabMode = TabLayout.MODE_FIXED
         mBinding.tabs.tabGravity = TabLayout.GRAVITY_FILL
         mBinding.tabs.setupWithViewPager(mBinding.viewPager)
-
     }
 }

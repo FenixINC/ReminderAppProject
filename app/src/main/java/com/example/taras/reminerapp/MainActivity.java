@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.taras.reminerapp.navigation.RemindFragment;
+import com.example.taras.reminerapp.navigation.MainRemindFragment;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 import com.example.taras.reminerapp.db.AppDatabase;
 import com.example.taras.reminerapp.db.model.Remind;
@@ -47,16 +47,8 @@ public class MainActivity extends AppCompatActivity
 
         mBinding.navView.setNavigationItemSelectedListener(this);
 
-//        PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
-//        adapter
-//                .add("News", NewsFragment.newInstance())
-//                .add("Events", EventFragment.newInstance())
-//                .add("Video", VideoFragmentJava.newInstance());
-//        mBinding.viewPager.setAdapter(adapter);
-//        mBinding.tabs.setupWithViewPager(mBinding.viewPager);
-
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, RemindFragment.newInstance())
+                .replace(R.id.content, MainRemindFragment.newInstance())
                 .commit();
     }
 

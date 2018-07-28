@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.reminds.my
+package com.example.taras.reminerapp.reminds.content
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -43,6 +43,8 @@ class EventFragment : Fragment(), OnRemindClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mBinding.toolbar.visibility = View.GONE
 
         val rv: RecyclerView = mBinding.recyclerView
         rv.layoutManager = LinearLayoutManager(activity?.applicationContext) as RecyclerView.LayoutManager?
