@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.content
+package com.example.taras.reminerapp.reminds
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
@@ -13,7 +13,7 @@ import timber.log.Timber
 /**
  * Created by Taras Koloshmatin on 24.07.2018
  */
-class ContentAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<ContentAdapter.ViewHolder>() {
+class RemindAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<RemindAdapter.ViewHolder>() {
 
     private var mList: ArrayList<Remind> = ArrayList()
     private var mListener: OnRemindClickListener = listener

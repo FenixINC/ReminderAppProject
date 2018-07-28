@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.content;
+package com.example.taras.reminerapp.reminds.my;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import com.example.taras.reminerapp.db.Constants;
 import com.example.taras.reminerapp.db.model.Remind;
 import com.example.taras.reminerapp.db.service.RemindService;
 import com.example.taras.reminerapp.db.service.ServiceGenerator;
+import com.example.taras.reminerapp.reminds.RemindAdapter;
+import com.example.taras.reminerapp.reminds.OnRemindClickListener;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -33,7 +35,7 @@ import timber.log.Timber;
 public class VideoFragmentJava extends Fragment implements OnRemindClickListener {
 
     private FragmentContentBinding mBinding;
-    private ContentAdapter mAdapter;
+    private RemindAdapter mAdapter;
 
     public static VideoFragmentJava newInstance() {
         return new VideoFragmentJava();
@@ -43,7 +45,7 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentContentBinding.inflate(inflater, container, false);
-        mAdapter = new ContentAdapter(this);
+        mAdapter = new RemindAdapter(this);
         return mBinding.getRoot();
     }
 

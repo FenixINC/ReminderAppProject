@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.taras.reminerapp.R
-import com.example.taras.reminerapp.content.MyRemindsFragment
+import com.example.taras.reminerapp.reminds.MyRemindsFragment
 import com.example.taras.reminerapp.databinding.FragmentRemindBinding
 
 /**

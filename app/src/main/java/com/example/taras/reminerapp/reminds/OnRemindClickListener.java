@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.content;
+package com.example.taras.reminerapp.reminds;
 
 import com.example.taras.reminerapp.db.model.Remind;
 

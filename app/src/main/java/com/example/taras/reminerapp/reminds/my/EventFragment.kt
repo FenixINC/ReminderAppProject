@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.content
+package com.example.taras.reminerapp.reminds.my
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -12,6 +12,8 @@ import android.widget.Toast
 import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
 import com.example.taras.reminerapp.db.model.Remind
+import com.example.taras.reminerapp.reminds.RemindAdapter
+import com.example.taras.reminerapp.reminds.OnRemindClickListener
 import timber.log.Timber
 
 /**
@@ -20,7 +22,7 @@ import timber.log.Timber
 class EventFragment : Fragment(), OnRemindClickListener {
 
     private lateinit var mBinding: FragmentContentBinding
-    private lateinit var mAdapter: ContentAdapter
+    private lateinit var mAdapter: RemindAdapter
 
     companion object Fragment {
         @JvmStatic // writing 'EventFragment.Fragment.newInstance' changes into 'EventFragment.newInstance'
@@ -35,7 +37,7 @@ class EventFragment : Fragment(), OnRemindClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_content, container, false)
-        mAdapter = ContentAdapter(this)
+        mAdapter = RemindAdapter(this)
         return mBinding.root
     }
 

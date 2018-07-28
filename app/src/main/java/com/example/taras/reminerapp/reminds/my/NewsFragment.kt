@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.content
+package com.example.taras.reminerapp.reminds.my
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,6 +14,8 @@ import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Remind
 import com.example.taras.reminerapp.db.service.RemindService
 import com.example.taras.reminerapp.db.service.ServiceGenerator
+import com.example.taras.reminerapp.reminds.RemindAdapter
+import com.example.taras.reminerapp.reminds.OnRemindClickListener
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Response
@@ -27,7 +29,7 @@ import java.lang.ref.WeakReference
 class NewsFragment : Fragment(), OnRemindClickListener {
 
     private lateinit var mBinding: FragmentContentBinding
-    private lateinit var mAdapter: ContentAdapter
+    private lateinit var mAdapter: RemindAdapter
 
 
     companion object {
@@ -43,7 +45,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentContentBinding.inflate(inflater, container, false)
-        mAdapter = ContentAdapter(this)
+        mAdapter = RemindAdapter(this)
         return mBinding.root
     }
 

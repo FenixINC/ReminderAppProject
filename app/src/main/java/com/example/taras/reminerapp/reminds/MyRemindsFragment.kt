@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.content
+package com.example.taras.reminerapp.reminds
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import com.example.taras.reminerapp.navigation.BaseFragment
 import com.example.taras.reminerapp.PageAdapter
 import com.example.taras.reminerapp.databinding.FragmentPagerBinding
+import com.example.taras.reminerapp.reminds.my.EventFragment
+import com.example.taras.reminerapp.reminds.my.NewsFragment
+import com.example.taras.reminerapp.reminds.my.VideoFragmentJava
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
