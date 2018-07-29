@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setTitle("Reminder");
 
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
-    private Fragment getNotificationTab(PageAdapter adapter, int position) {
+    private Fragment setNotificationTab(PageAdapter adapter, int position) {
 //        mBinding.viewPager.setCurrentItem(position);
         return adapter.getItem(position);
     }
@@ -83,27 +82,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-//            setNotificationTab(2);
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        } else if (id == R.id.logout) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
+        switch (item.getItemId()) {
+            case R.id.logout: {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+            }
+            break;
         }
         mBinding.drawerLayout.closeDrawer(GravityCompat.START);
-
         return true;
     }
 }

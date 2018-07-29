@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -52,7 +48,5 @@
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main"
             app:menu="@menu/activity_main_drawer" />
-
     </android.support.v4.widget.DrawerLayout>
-
 </layout>
