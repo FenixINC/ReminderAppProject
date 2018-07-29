@@ -22,4 +22,35 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="SansationBold">
+        <item name="android:fontFamily">@font/font_sansation_bold</item>
+        <item name="fontFamily">@font/font_sansation_bold</item>
+    </style>
+
+    <style name="SansationItalic">
+        <item name="android:fontFamily">@font/font_sansation_bold</item>
+        <item name="fontFamily">@font/font_sansation_bold</item>
+    </style>
+
+    <style name="SansationBoldItalic">
+        <item name="android:fontFamily">@font/font_sansation_bold_italic</item>
+        <item name="fontFamily">@font/font_sansation_bold_italic</item>
+    </style>
+
+    <style name="SansationLight">
+        <item name="android:fontFamily">@font/font_sansation_light</item>
+        <item name="fontFamily">@font/font_sansation_light</item>
+    </style>
+
+    <style name="SansationLightItalic">
+        <item name="android:fontFamily">@font/font_sansation_light_italic</item>
+        <item name="fontFamily">@font/font_sansation_light_italic</item>
+    </style>
+
+    <style name="SansationRegilar">
+        <item name="android:fontFamily">@font/font_sansation_regular</item>
+        <item name="fontFamily">@font/font_sansation_regular</item>
+    </style>
 </resources>
