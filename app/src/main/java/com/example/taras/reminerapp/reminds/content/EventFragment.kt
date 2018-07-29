@@ -86,7 +86,7 @@ class EventFragment : Fragment(), OnRemindClickListener {
             val weakReference: WeakReference<EventFragment> = WeakReference(this@EventFragment)
             var list: List<Remind>? = null
 
-            if (weakReference != null && weakReference.get()!!.isVisible) {
+            if (weakReference.get() != null && weakReference.get()!!.isVisible) {
                 try {
                     val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
                             .getListByType(Constants.TYPE_EVENT).execute()

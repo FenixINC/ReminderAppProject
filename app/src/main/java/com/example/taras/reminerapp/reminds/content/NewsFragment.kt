@@ -86,7 +86,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
             val weakReference: WeakReference<NewsFragment> = WeakReference(this@NewsFragment)
             var list: List<Remind>? = null
 
-            if (weakReference != null && weakReference.get()!!.isVisible) {
+            if (weakReference.get() != null && weakReference.get()!!.isVisible) {
                 try {
                     val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
                             .getListByType(Constants.TYPE_NEWS).execute()
@@ -101,7 +101,6 @@ class NewsFragment : Fragment(), OnRemindClickListener {
                 } catch (e: IOException) {
                     Timber.e("Failed load reminds! ${e.message}")
                 }
-
             } else {
                 Timber.d("Fragment weakReference null or not visible!")
             }

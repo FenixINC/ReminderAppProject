@@ -8,10 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.taras.reminerapp.BaseFragment
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
+import com.example.taras.reminerapp.db.AppDatabase
+import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Remind
+import com.example.taras.reminerapp.db.service.RemindService
+import com.example.taras.reminerapp.db.service.ServiceGenerator
 import com.example.taras.reminerapp.reminds.OnRemindClickListener
 import com.example.taras.reminerapp.reminds.RemindAdapter
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import retrofit2.Response
 import timber.log.Timber
+import java.io.IOException
+import java.lang.ref.WeakReference
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
@@ -53,11 +62,55 @@ class MyRemindsFragment : BaseFragment(), OnRemindClickListener {
         rv.adapter = mAdapter
 
         mBinding.swipeRefresh.setOnRefreshListener {
-
+            refreshUserRemindsTask()
         }
+        getUserRemindsTask()
     }
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: $model")
+    }
+
+    private fun getUserRemindsTask() {
+        doAsync {
+            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_USER_REMIND)
+            uiThread {
+                mAdapter.setList(list)
+            }
+        }
+    }
+
+    private fun refreshUserRemindsTask() {
+        doAsync {
+            val weakReference: WeakReference<MyRemindsFragment> = WeakReference(this@MyRemindsFragment)
+            var list: List<Remind>? = null
+
+            if (weakReference.get() != null && weakReference.get()!!.isVisible) {
+                try {
+                    val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
+                            .getListByType(Constants.TYPE_USER_REMIND).execute()
+
+                    if (response.isSuccessful) {
+                        list = response.body()!!
+                        AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_USER_REMIND)
+                        AppDatabase.getInstance().remindDao().insert(list)
+                    } else {
+                        Timber.e("Error loading reminds: ${response.code()}")
+                    }
+                } catch (e: IOException) {
+                    Timber.e("Failed load reminds! ${e.message}")
+                }
+            } else {
+                Timber.d("Fragment weakReference null or not visible!")
+            }
+            uiThread {
+                mBinding.swipeRefresh.isRefreshing = false
+                if (list != null) {
+                    mAdapter.setList(list)
+                } else {
+                    Timber.d("Null list!")
+                }
+            }
+        }
     }
 }
