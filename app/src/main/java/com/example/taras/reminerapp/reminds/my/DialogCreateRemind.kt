@@ -11,12 +11,13 @@ import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Remind
 import kotlinx.android.synthetic.main.fragment_create_remind.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.uiThread
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
  */
-class CreateRemindDialog : DialogFragment() {
+class DialogCreateRemind : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(context)
@@ -24,8 +25,8 @@ class CreateRemindDialog : DialogFragment() {
         dialog.setContentView(R.layout.fragment_create_remind)
         dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
-        dialog.btn_cancel.setOnClickListener { dismiss() }
-        dialog.btn_save.setOnClickListener {
+        dialog.btn_cancel.onClick { dismiss() }
+        dialog.btn_save.onClick {
             doAsync {
                 AppDatabase.getInstance().remindDao().insert(Remind(
                         dialog.title.text.toString(),

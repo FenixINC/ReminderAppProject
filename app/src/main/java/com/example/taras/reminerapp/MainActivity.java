@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 import com.example.taras.reminerapp.navigation.MainRemindFragment;
-import com.example.taras.reminerapp.reminds.my.CreateRemindDialog;
+import com.example.taras.reminerapp.reminds.my.DialogCreateRemind;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,9 +74,7 @@ public class MainActivity extends AppCompatActivity
                 // Global search
                 break;
             case R.id.action_create_remind:
-//                CreateRemindDialog dialog = new CreateRemindDialog();
-//                dialog.show(getSupportFragmentManager(), "create-remind-dialog");
-                new CreateRemindDialog().show(getSupportFragmentManager(), "create-remind-dialog");
+                new DialogCreateRemind().show(getSupportFragmentManager(), "create-remind-dialog");
                 break;
         }
 
