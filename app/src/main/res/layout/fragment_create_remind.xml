@@ -60,17 +60,39 @@
                     android:text="@{model.description}" />
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_save"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/background"
-                android:text="Save"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/background"
+                    android:text="Save"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/background"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </layout>

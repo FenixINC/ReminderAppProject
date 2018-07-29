@@ -32,9 +32,5 @@
             android:name=".MainActivity"
             android:theme="@style/AppTheme" />
 
-        <activity
-            android:name=".reminds.my.CreateRemindActivity"
-            android:theme="@style/AppTheme" />
-
     </application>
 </manifest>
