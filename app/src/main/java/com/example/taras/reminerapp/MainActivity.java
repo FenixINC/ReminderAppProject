@@ -2,7 +2,6 @@ package com.example.taras.reminerapp;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,11 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
-import com.example.taras.reminerapp.db.model.Remind;
 import com.example.taras.reminerapp.navigation.MainRemindFragment;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -109,38 +104,5 @@ public class MainActivity extends AppCompatActivity
         mBinding.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
-    }
-
-    public static class Task extends AsyncTask<Void, Void, List<Remind>> {
-
-        private WeakReference<OnRemindListener> mListener;
-
-        public interface OnRemindListener {
-            void onGetReminds(List<Remind> list);
-        }
-
-        private Task(OnRemindListener listener) {
-            mListener = new WeakReference<>(listener);
-        }
-
-        public static void requestTask(OnRemindListener listener) {
-            new Task(listener).execute();
-        }
-
-        @Override
-        protected List<Remind> doInBackground(Void... voids) {
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<Remind> list) {
-            if (mListener != null) {
-                OnRemindListener listener = mListener.get();
-                if (listener != null) {
-                    listener.onGetReminds(list);
-                }
-            }
-        }
     }
 }

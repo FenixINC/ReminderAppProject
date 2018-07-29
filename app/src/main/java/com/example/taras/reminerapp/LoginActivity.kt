@@ -1,6 +1,5 @@
 package com.example.taras.reminerapp
 
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +10,7 @@ import com.example.taras.reminerapp.db.service.RemindService
 import com.example.taras.reminerapp.db.service.ServiceGenerator
 import com.hanks.passcodeview.PasscodeView
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.uiThread
 import retrofit2.Response
 import timber.log.Timber
@@ -53,7 +53,8 @@ class LoginActivity : AppCompatActivity(), PasscodeView.PasscodeViewListener {
                 }
                 uiThread {
                     mBinding.setShowProgress(false)
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    startActivity(intentFor<MainActivity>()) // or startActivity<MainActivity>()
+//                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
                 }
             }

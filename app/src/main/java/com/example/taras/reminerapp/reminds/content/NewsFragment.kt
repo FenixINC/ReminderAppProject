@@ -103,7 +103,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
                 }
 
             } else {
-                Timber.d("WeakReference not or not visible!")
+                Timber.d("Fragment weakReference null or not visible!")
             }
             uiThread {
                 mBinding.swipeRefresh.isRefreshing = false
