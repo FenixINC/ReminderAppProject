@@ -49,7 +49,7 @@
         <item name="fontFamily">@font/font_sansation_light_italic</item>
     </style>
 
-    <style name="SansationRegilar">
+    <style name="SansationRegular">
         <item name="android:fontFamily">@font/font_sansation_regular</item>
         <item name="fontFamily">@font/font_sansation_regular</item>
     </style>
