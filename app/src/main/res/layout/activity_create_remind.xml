@@ -40,11 +40,11 @@
                 android:layout_marginTop="15dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/description"
+                    android:id="@+id/remind_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Description"
-                    android:text="@{model.description}" />
+                    android:hint="Remind Date"
+                    android:text="@{model.remindDate}" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -53,11 +53,11 @@
                 android:layout_marginTop="15dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/remind_date"
+                    android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Remind Date"
-                    android:text="@{model.remindDate}" />
+                    android:hint="Description"
+                    android:text="@{model.description}" />
             </android.support.design.widget.TextInputLayout>
 
             <Button

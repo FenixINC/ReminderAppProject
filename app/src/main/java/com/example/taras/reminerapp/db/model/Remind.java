@@ -42,9 +42,11 @@ public class Remind implements Parcelable {
     public Remind() {
     }
 
-    public Remind(String title, String description) {
+    public Remind(String title, String remindDate, String description, String typeRemind) {
         this.title = title;
+        this.remindDate = remindDate;
         this.description = description;
+        this.typeRemind = typeRemind;
     }
 
     protected Remind(Parcel in) {
