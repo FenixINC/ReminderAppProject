@@ -31,6 +31,6 @@ interface RemindDao {
     @Query("SELECT * FROM tblRemind")
     fun getList(): List<Remind>
 
-    @Query("SELECT * FROM tblRemind WHERE type_remind = :typeRemind")
+    @Query("SELECT * FROM tblRemind WHERE type_remind = :typeRemind ORDER BY id ASC")
     fun getListByType(typeRemind: String): List<Remind>
 }
