@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
 import com.example.taras.reminerapp.db.AppDatabase
@@ -69,7 +68,13 @@ class EventFragment : Fragment(), OnRemindClickListener {
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: ${model?.toString()}")
-        Toast.makeText(context, model?.title, Toast.LENGTH_LONG).show()
+//        if (model != null) {
+//            fragmentManager
+//                    ?.beginTransaction()
+//                    ?.replace(R.id.frame_container, RemindDetails.newInstance(model))
+//                    ?.addToBackStack(null)
+//                    ?.commit()
+//        }
     }
 
     private fun getEventsTask() {

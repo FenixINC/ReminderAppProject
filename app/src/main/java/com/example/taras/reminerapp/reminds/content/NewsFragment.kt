@@ -16,7 +16,6 @@ import com.example.taras.reminerapp.db.service.ServiceGenerator
 import com.example.taras.reminerapp.reminds.OnRemindClickListener
 import com.example.taras.reminerapp.reminds.RemindAdapter
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import retrofit2.Response
 import timber.log.Timber
@@ -68,7 +67,12 @@ class NewsFragment : Fragment(), OnRemindClickListener {
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: ${model?.toString()}")
-        toast(model?.title.toString())
+//        if (model != null) {
+//            fragmentManager
+//                    ?.beginTransaction()
+//                    ?.replace(R.id.content, RemindDetails.newInstance(model))
+//                    ?.commit()
+//        }
     }
 
 
