@@ -9,10 +9,14 @@ import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.db.AppDatabase
 import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Remind
+import com.example.taras.reminerapp.db.service.RemindService
+import com.example.taras.reminerapp.db.service.ServiceGenerator
 import kotlinx.android.synthetic.main.fragment_create_remind.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
+import java.io.IOException
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
@@ -28,15 +32,16 @@ class DialogCreateRemind : DialogFragment() {
         dialog.btn_cancel.onClick { dismiss() }
         dialog.btn_save.onClick {
             doAsync {
-                AppDatabase.getInstance().remindDao().insert(Remind(
-                        dialog.title.text.toString(),
+                val remind = Remind(dialog.title.text.toString(),
                         dialog.remind_date.text.toString(),
                         dialog.description.text.toString(),
-                        Constants.TYPE_USER_REMIND
-                ))
-
-                //TODO: also make POST request to server and save data there!
-
+                        Constants.TYPE_USER_REMIND)
+                try {
+                    val response = ServiceGenerator.createService(RemindService::class.java).createRemind(remind).execute()
+                    AppDatabase.getInstance().remindDao().insert(remind)
+                } catch (e: IOException) {
+                    Timber.e("Failed create user remind! ${e.message}")
+                }
                 uiThread {
                     dismiss()
                 }
