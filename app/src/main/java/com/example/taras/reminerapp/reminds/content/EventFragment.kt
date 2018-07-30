@@ -93,7 +93,7 @@ class EventFragment : Fragment(), OnRemindClickListener {
 
                     if (response.isSuccessful) {
                         list = response.body()!!
-                        AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_NEWS)
+                        AppDatabase.getInstance().remindDao().deleteByType(Constants.TYPE_EVENT)
                         AppDatabase.getInstance().remindDao().insert(list)
                     } else {
                         Timber.e("Error loading reminds: ${response.code()}")
