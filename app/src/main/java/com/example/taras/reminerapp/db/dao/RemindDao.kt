@@ -1,5 +1,6 @@
 package com.example.taras.reminerapp.db.dao
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.example.taras.reminerapp.db.model.Remind
@@ -29,8 +30,8 @@ interface RemindDao {
     fun deleteByType(typeRemind: String)
 
     @Query("SELECT * FROM tblRemind")
-    fun getList(): List<Remind>
+    fun getList(): LiveData<List<Remind>>
 
     @Query("SELECT * FROM tblRemind WHERE type_remind = :typeRemind ORDER BY id ASC")
-    fun getListByType(typeRemind: String): List<Remind>
+    fun getListByType(typeRemind: String): LiveData<List<Remind>>
 }
