@@ -70,7 +70,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
 //        if (model != null) {
 //            fragmentManager
 //                    ?.beginTransaction()
-//                    ?.replace(R.id.content, RemindDetails.newInstance(model))
+//                    ?.replace(R.id.content, RemindDetailsFragment.newInstance(model))
 //                    ?.commit()
 //        }
     }

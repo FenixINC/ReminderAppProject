@@ -11,7 +11,7 @@ import com.example.taras.reminerapp.db.model.Remind
 /**
  * Created by Taras Koloshmatin on 30.07.2018
  */
-class RemindDetails : Fragment() {
+class RemindDetailsFragment : Fragment() {
 
     private lateinit var mBinding: ItemRemindDetailsBinding
     private lateinit var mModel: Remind
@@ -22,10 +22,10 @@ class RemindDetails : Fragment() {
         private const val KEY_MODEL = "key_model"
 
         @JvmStatic
-        fun newInstance(model: Remind): RemindDetails {
+        fun newInstance(model: Remind): RemindDetailsFragment {
             val args = Bundle()
             args.putParcelable(KEY_MODEL, model)
-            val fragment = RemindDetails()
+            val fragment = RemindDetailsFragment()
             fragment.arguments = args
             return fragment
         }

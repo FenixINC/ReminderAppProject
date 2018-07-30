@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.taras.reminerapp.R;
 import com.example.taras.reminerapp.databinding.FragmentContentBinding;
 import com.example.taras.reminerapp.db.AppDatabase;
 import com.example.taras.reminerapp.db.Constants;
@@ -21,7 +20,6 @@ import com.example.taras.reminerapp.db.service.RemindService;
 import com.example.taras.reminerapp.db.service.ServiceGenerator;
 import com.example.taras.reminerapp.reminds.OnRemindClickListener;
 import com.example.taras.reminerapp.reminds.RemindAdapter;
-import com.example.taras.reminerapp.reminds.RemindDetails;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -79,7 +77,7 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
         Timber.d("Clicked model: %s", model.toString());
 //        getFragmentManager()
 //                .beginTransaction()
-//                .replace(R.id.frame_container, RemindDetails.newInstance(model))
+//                .replace(R.id.frame_container, RemindDetailsFragment.newInstance(model))
 //                .commit();
     }
 

@@ -71,7 +71,7 @@ class EventFragment : Fragment(), OnRemindClickListener {
 //        if (model != null) {
 //            fragmentManager
 //                    ?.beginTransaction()
-//                    ?.replace(R.id.frame_container, RemindDetails.newInstance(model))
+//                    ?.replace(R.id.frame_container, RemindDetailsFragment.newInstance(model))
 //                    ?.addToBackStack(null)
 //                    ?.commit()
 //        }
