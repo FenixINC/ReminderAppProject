@@ -82,4 +82,15 @@ public class Remind implements Parcelable {
         parcel.writeString(remindDate);
         parcel.writeString(typeRemind);
     }
+
+    @Override
+    public String toString() {
+        return "Remind{" +
+                "id=" + id +
+                ", title=" + title +
+                ", remindDate=" + remindDate +
+                ", description" + description +
+                ", typeRemind=" + typeRemind +
+                '}';
+    }
 }

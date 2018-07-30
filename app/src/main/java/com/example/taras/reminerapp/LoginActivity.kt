@@ -33,8 +33,9 @@ class LoginActivity : AppCompatActivity(), PasscodeView.PasscodeViewListener {
         mBinding.password.localPasscode = "54321"
     }
 
-    override fun onSuccess(number: String?) {
-        if (number.equals("54321")) {
+    override fun onSuccess(password: String?) {
+        if (password.equals("54321")) {
+            Timber.d("Login is successful: $password")
             mBinding.setShowProgress(true)
 
             doAsync {
@@ -59,11 +60,11 @@ class LoginActivity : AppCompatActivity(), PasscodeView.PasscodeViewListener {
                 }
             }
         } else {
-            Timber.d("Wrong password! $number")
+            Timber.d("Wrong password! $password")
         }
     }
 
     override fun onFail() {
-        Timber.d("Wrong password!")
+        Timber.d("Can't login!")
     }
 }

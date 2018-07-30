@@ -68,7 +68,7 @@ class EventFragment : Fragment(), OnRemindClickListener {
     }
 
     override fun onModelClick(model: Remind?) {
-        Timber.d("Clicked model: $model")
+        Timber.d("Clicked model: ${model?.toString()}")
         Toast.makeText(context, model?.title, Toast.LENGTH_LONG).show()
     }
 

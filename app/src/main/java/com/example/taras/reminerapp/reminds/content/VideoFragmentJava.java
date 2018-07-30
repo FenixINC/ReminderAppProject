@@ -74,7 +74,7 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
 
     @Override
     public void onModelClick(Remind model) {
-
+        Timber.d("Clicked model: %s", model.toString());
     }
 
 

@@ -68,7 +68,7 @@ class MyRemindsFragment : BaseFragment(), OnRemindClickListener {
     }
 
     override fun onModelClick(model: Remind?) {
-        Timber.d("Clicked model: $model")
+        Timber.d("Clicked model: ${model?.toString()}")
     }
 
     private fun getUserRemindsTask() {
