@@ -73,9 +73,9 @@ class MyRemindsFragment : BaseFragment(), OnRemindClickListener {
 
     private fun getUserRemindsTask() {
         doAsync {
-            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_USER_REMIND)
+//            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_USER_REMIND)
             uiThread {
-                mAdapter.setList(list)
+//                mAdapter.setList(list)
             }
         }
     }

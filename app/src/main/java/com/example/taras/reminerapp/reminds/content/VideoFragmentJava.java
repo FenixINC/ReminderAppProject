@@ -1,5 +1,6 @@
 package com.example.taras.reminerapp.reminds.content;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.taras.reminerapp.data.RemindViewModel;
 import com.example.taras.reminerapp.databinding.FragmentContentBinding;
 import com.example.taras.reminerapp.db.AppDatabase;
 import com.example.taras.reminerapp.db.Constants;
@@ -64,11 +66,16 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
         mBinding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                RefreshVideosTask.requestTask(VideoFragmentJava.this);
+                setVideoList();
             }
         });
 
-        GetVideosTask.requestTask(VideoFragmentJava.this);
+        setVideoList();
+    }
+
+    private void setVideoList() {
+        RemindViewModel remindViewModel = ViewModelProviders.of(VideoFragmentJava.this).get(RemindViewModel.class);
+        remindViewModel.getVideoList().observe(VideoFragmentJava.this, list -> setList(list));
     }
 
 
@@ -101,7 +108,8 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
 
         @Override
         protected List<Remind> doInBackground(Void... voids) {
-            return AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_VIDEO);
+//            return AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_VIDEO);
+            return null;
         }
 
         @Override

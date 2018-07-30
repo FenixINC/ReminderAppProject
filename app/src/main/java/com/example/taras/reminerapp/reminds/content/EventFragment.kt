@@ -1,5 +1,7 @@
 package com.example.taras.reminerapp.reminds.content
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.taras.reminerapp.R
+import com.example.taras.reminerapp.data.RemindViewModel
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
 import com.example.taras.reminerapp.db.AppDatabase
 import com.example.taras.reminerapp.db.Constants
@@ -53,6 +56,7 @@ class EventFragment : Fragment(), OnRemindClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         mBinding.toolbar.visibility = View.GONE
+        mBinding.swipeRefresh.isRefreshing = true
 
         val rv: RecyclerView = mBinding.recyclerView
         rv.layoutManager = LinearLayoutManager(activity?.applicationContext) as RecyclerView.LayoutManager?
@@ -60,10 +64,15 @@ class EventFragment : Fragment(), OnRemindClickListener {
         rv.adapter = mAdapter
 
         mBinding.swipeRefresh.setOnRefreshListener {
-            refreshEventTask()
+            setEventList()
         }
+        setEventList()
+    }
 
-        getEventsTask()
+    private fun setEventList() {
+        val remindViewModel: RemindViewModel = ViewModelProviders.of(this@EventFragment).get(RemindViewModel::class.java)
+        remindViewModel.eventList.observe(this@EventFragment, Observer { mAdapter.setList(it as List<Remind>) })
+        mBinding.swipeRefresh.isRefreshing = false
     }
 
     override fun onModelClick(model: Remind?) {
@@ -79,9 +88,9 @@ class EventFragment : Fragment(), OnRemindClickListener {
 
     private fun getEventsTask() {
         doAsync {
-            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_EVENT)
+            //            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_EVENT)
             uiThread {
-                mAdapter.setList(list)
+                //                mAdapter.setList(list)
             }
         }
     }
