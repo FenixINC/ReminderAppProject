@@ -37,11 +37,7 @@ class NewsFragment : Fragment(), OnRemindClickListener {
     companion object {
         @JvmStatic
         fun newInstance(): NewsFragment {
-            val args: Bundle = Bundle()
-//            args.putParcelableArrayList(ARG_CAUGHT, someList)
-            val fragment = NewsFragment()
-//            fragment.arguments = args
-            return fragment
+            return NewsFragment()
         }
     }
 
@@ -83,16 +79,6 @@ class NewsFragment : Fragment(), OnRemindClickListener {
 //                    ?.commit()
 //        }
     }
-
-
-//    private fun getNewsTask() {
-//        doAsync {
-//            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_NEWS)
-//            uiThread {
-//                mAdapter.setList(list)
-//            }
-//        }
-//    }
 
     private fun refreshNewsTask() {
         doAsync {

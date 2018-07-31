@@ -3,10 +3,7 @@ package com.example.taras.reminerapp.db.service
 import com.example.taras.reminerapp.db.model.Remind
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Created by Taras Koloshmatin on 26.07.2018
@@ -24,4 +21,7 @@ interface RemindService {
 
     @POST("/reminder/create")
     fun createRemind(@Body remind: Remind): Call<ResponseBody>
+
+    @DELETE("/reminder/delete")
+    fun delete(@Query("id") id: Int): Call<ResponseBody>
 }
