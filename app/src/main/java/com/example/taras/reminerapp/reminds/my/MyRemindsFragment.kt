@@ -1,5 +1,7 @@
 package com.example.taras.reminerapp.reminds.my
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -7,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.taras.reminerapp.BaseFragment
+import com.example.taras.reminerapp.data.RemindViewModel
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
 import com.example.taras.reminerapp.db.AppDatabase
 import com.example.taras.reminerapp.db.Constants
@@ -55,6 +58,7 @@ class MyRemindsFragment : BaseFragment(), OnRemindClickListener {
         setTitle("My Reminds")
 
         mBinding.toolbar.visibility = View.VISIBLE
+        mBinding.swipeRefresh.isRefreshing = true
 
         val rv: RecyclerView = mBinding.recyclerView
         rv.layoutManager = LinearLayoutManager(activity?.applicationContext) as RecyclerView.LayoutManager?
@@ -62,22 +66,19 @@ class MyRemindsFragment : BaseFragment(), OnRemindClickListener {
         rv.adapter = mAdapter
 
         mBinding.swipeRefresh.setOnRefreshListener {
-            refreshUserRemindsTask()
+            setUserRemindList()
         }
-        getUserRemindsTask()
+        setUserRemindList()
     }
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: ${model?.toString()}")
     }
 
-    private fun getUserRemindsTask() {
-        doAsync {
-//            val list: List<Remind> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_USER_REMIND)
-            uiThread {
-//                mAdapter.setList(list)
-            }
-        }
+    private fun setUserRemindList() {
+        val remindViewModel: RemindViewModel = ViewModelProviders.of(this@MyRemindsFragment).get(RemindViewModel::class.java)
+        remindViewModel.getUserRemindList().observe(this@MyRemindsFragment, Observer { mAdapter.setList(it as List<Remind>) })
+        mBinding.swipeRefresh.isRefreshing = false
     }
 
     private fun refreshUserRemindsTask() {

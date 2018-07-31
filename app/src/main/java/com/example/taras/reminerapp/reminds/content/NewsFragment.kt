@@ -65,13 +65,12 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         mBinding.swipeRefresh.setOnRefreshListener {
             setNewsList()
         }
-
         setNewsList()
     }
 
     private fun setNewsList() {
         val remindViewModel: RemindViewModel = ViewModelProviders.of(this@NewsFragment).get(RemindViewModel::class.java)
-        remindViewModel.newsList.observe(this@NewsFragment, Observer { mAdapter.setList(it as List<Remind>) })
+        remindViewModel.getNewsList().observe(this@NewsFragment, Observer { mAdapter.setList(it as List<Remind>) })
         mBinding.swipeRefresh.isRefreshing = false
     }
 

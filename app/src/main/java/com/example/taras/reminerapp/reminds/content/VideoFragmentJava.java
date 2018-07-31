@@ -63,29 +63,20 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
         rv.setHasFixedSize(true);
         rv.setAdapter(mAdapter);
 
-        mBinding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                setVideoList();
-            }
-        });
+        mBinding.swipeRefresh.setOnRefreshListener(() -> setVideoList());
 
         setVideoList();
     }
 
     private void setVideoList() {
         RemindViewModel remindViewModel = ViewModelProviders.of(VideoFragmentJava.this).get(RemindViewModel.class);
-        remindViewModel.getVideoList().observe(VideoFragmentJava.this, list -> setList(list));
+        remindViewModel.getVideoList().observe(VideoFragmentJava.this, this::setList);
     }
 
 
     @Override
     public void onModelClick(Remind model) {
         Timber.d("Clicked model: %s", model.toString());
-//        getFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.frame_container, RemindDetailsFragment.newInstance(model))
-//                .commit();
     }
 
 
