@@ -33,7 +33,6 @@ class MyRemindsFragment : BaseFragment(), OnRemindClickListener {
     private lateinit var mBinding: FragmentContentBinding
     private lateinit var mAdapter: RemindAdapter
 
-
     companion object {
         @JvmStatic
         fun newInstance(): MyRemindsFragment {
@@ -66,13 +65,17 @@ class MyRemindsFragment : BaseFragment(), OnRemindClickListener {
         rv.adapter = mAdapter
 
         mBinding.swipeRefresh.setOnRefreshListener {
-            setUserRemindList()
+            refreshUserRemindsTask()
         }
         setUserRemindList()
     }
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: ${model?.toString()}")
+    }
+
+    override fun onStarClick(model: Remind?, position: Int) {
+        Timber.d(model.toString())
     }
 
     private fun setUserRemindList() {

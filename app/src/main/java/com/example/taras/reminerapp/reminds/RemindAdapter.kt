@@ -1,14 +1,17 @@
 package com.example.taras.reminerapp.reminds
 
+import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.android.databinding.library.baseAdapters.BR
 import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.db.model.Remind
 import timber.log.Timber
+import java.util.*
 
 /**
  * Created by Taras Koloshmatin on 24.07.2018
@@ -16,7 +19,9 @@ import timber.log.Timber
 class RemindAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<RemindAdapter.ViewHolder>() {
 
     private var mList: ArrayList<Remind> = ArrayList()
+    private var mStarList: Queue<Int> = LinkedList()
     private var mListener: OnRemindClickListener = listener
+    private var mStarOn: Boolean = false
 
     fun setList(list: List<Remind>) {
         if (list == null) {
@@ -30,6 +35,17 @@ class RemindAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<Remi
 
     fun getItem(position: Int): Remind {
         return mList[position]
+    }
+
+    fun setStarOn(starOn: Boolean, position: Int, remind: Remind) {
+        mStarOn = if (!mStarList.contains(remind.id)) {
+            mStarList.add(remind.id)
+            starOn
+        } else {
+            mStarList.remove(remind.id)
+            false
+        }
+        notifyItemChanged(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,8 +62,7 @@ class RemindAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<Remi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), mListener)
-
+        holder.bind(getItem(position), mListener, mStarOn)
     }
 
     override fun getItemCount(): Int {
@@ -65,10 +80,10 @@ class RemindAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<Remi
     }
 
     class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Any, listener: OnRemindClickListener) {
+        fun bind(data: Any, listener: OnRemindClickListener, starOn: Boolean) {
             binding.setVariable(BR.model, data)
             binding.setVariable(BR.clickListener, listener)
-//            binding.executePendingBindings()
+            binding.setVariable(BR.starOn, starOn)
         }
     }
 
@@ -78,4 +93,12 @@ class RemindAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<Remi
 //            binding.setVariable(BR.clickListener, listener)
 //        }
 //    }
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("bindRemindStar")
+        fun ImageView.setRemindStar(starOn: Boolean) {
+            isSelected = starOn
+        }
+    }
 }

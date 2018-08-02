@@ -9,6 +9,7 @@ import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.databinding.FragmentRemindBinding
 import com.example.taras.reminerapp.reminds.content.ContentRemindsFragment
 import com.example.taras.reminerapp.reminds.my.MyRemindsFragment
+import com.example.taras.reminerapp.reminds.stars.StarsFragment
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -37,6 +38,7 @@ class MainRemindFragment : Fragment() {
         mBinding.myReminds.setOnClickListener { openFragment(MyRemindsFragment.newInstance()) }
         mBinding.contentReminds.setOnClickListener { openFragment(ContentRemindsFragment.newInstance()) }
         mBinding.calendarReminds.setOnClickListener { toast("Not yet implemented") }
+        mBinding.starsReminds.setOnClickListener { openFragment(StarsFragment.newInstance()) }
     }
 
     private fun openFragment(fragment: Fragment) {

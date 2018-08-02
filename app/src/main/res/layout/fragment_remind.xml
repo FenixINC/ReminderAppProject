@@ -51,6 +51,17 @@
                 android:text="Calendar Reminds - Coming Soon"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/stars_reminds"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/background"
+                android:gravity="center"
+                android:text="Stars/Favorites"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
 </layout>

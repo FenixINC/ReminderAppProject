@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 import com.example.taras.reminerapp.navigation.MainRemindFragment;
 import com.example.taras.reminerapp.reminds.my.DialogCreateRemind;
+import com.example.taras.reminerapp.reminds.stars.StarsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,6 +84,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.nav_star: {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, StarsFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
+            break;
             case R.id.logout: {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();

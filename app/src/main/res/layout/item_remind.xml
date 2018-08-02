@@ -12,6 +12,14 @@
         <variable
             name="clickListener"
             type="com.example.taras.reminerapp.reminds.OnRemindClickListener" />
+
+        <variable
+            name="starOn"
+            type="boolean" />
+
+        <variable
+            name="position"
+            type="int" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -31,33 +39,54 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{model.title}"
-                android:textColor="@color/text"
-                android:textSize="18sp"
-                tools:text="Title" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@{model.remindDate}"
-                android:textSize="15sp"
-                tools:text="Remind Date" />
+                <ImageView
+                    android:id="@+id/remind_star"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="@{() -> clickListener.onStarClick(model, position)}"
+                    android:padding="10dp"
+                    android:src="@drawable/remind_star"
+                    app:bindRemindStar="@{starOn}" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:lineSpacingExtra="3dp"
-                android:maxLines="3"
-                android:text="@{model.description}"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                tools:text="@tools:sample/lorem/random" />
+                <TextView
+                    android:id="@+id/remind_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/remind_star"
+                    android:text="@{model.title}"
+                    android:textColor="@color/text"
+                    android:textSize="18sp"
+                    tools:text="Title" />
+
+                <TextView
+                    android:id="@+id/remind_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/remind_title"
+                    android:layout_marginTop="5dp"
+                    android:text="@{model.remindDate}"
+                    android:textSize="15sp"
+                    tools:text="Remind Date" />
+
+                <TextView
+                    android:id="@+id/remind_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/remind_date"
+                    android:layout_marginTop="5dp"
+                    android:lineSpacingExtra="3dp"
+                    android:maxLines="3"
+                    android:text="@{model.description}"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:text="@tools:sample/lorem/random" />
+
+            </RelativeLayout>
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
 </layout>

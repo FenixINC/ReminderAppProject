@@ -69,4 +69,8 @@ class EventFragment : Fragment(), OnRemindClickListener {
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: ${model?.toString()}")
     }
+
+    override fun onStarClick(model: Remind?, position: Int) {
+        Timber.d(model.toString())
+    }
 }

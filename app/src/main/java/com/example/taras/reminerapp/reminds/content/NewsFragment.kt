@@ -1,7 +1,6 @@
 package com.example.taras.reminerapp.reminds.content
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -28,11 +27,11 @@ import java.lang.ref.WeakReference
 /**
  * Created by Taras Koloshmatin on 24.07.2018
  */
-class NewsFragment : Fragment(), OnRemindClickListener {
+class NewsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
 
     private lateinit var mBinding: FragmentContentBinding
     private lateinit var mAdapter: RemindAdapter
-
+    private lateinit var mRemindViewModel: RemindViewModel
 
     companion object {
         @JvmStatic
@@ -41,9 +40,16 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mRemindViewModel = ViewModelProviders.of(activity!!).get(RemindViewModel::class.java)
+        mRemindViewModel.restoreState(savedInstanceState)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentContentBinding.inflate(inflater, container, false)
         mAdapter = RemindAdapter(this)
+        lifecycle.addObserver(this)
         return mBinding.root
     }
 
@@ -59,24 +65,42 @@ class NewsFragment : Fragment(), OnRemindClickListener {
         rv.adapter = mAdapter
 
         mBinding.swipeRefresh.setOnRefreshListener {
-            setNewsList()
+            refreshNewsTask()
         }
         setNewsList()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mRemindViewModel.saveState(outState)
+    }
+
+    override fun onDestroyView() {
+        lifecycle.removeObserver(this)
+        super.onDestroyView()
+    }
+
     private fun setNewsList() {
-        val remindViewModel: RemindViewModel = ViewModelProviders.of(this@NewsFragment).get(RemindViewModel::class.java)
-        remindViewModel.getNewsList().observe(this@NewsFragment, Observer { mAdapter.setList(it as List<Remind>) })
+//        mRemindViewModel = ViewModelProviders.of(activity!!).get(RemindViewModel::class.java)
+        mRemindViewModel.getNewsList().observe(this@NewsFragment, Observer { mAdapter.setList(it as List<Remind>) })
         mBinding.swipeRefresh.isRefreshing = false
     }
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: ${model?.toString()}")
+        mRemindViewModel.setStar(model!!)
 //        if (model != null) {
 //            fragmentManager
 //                    ?.beginTransaction()
 //                    ?.replace(R.id.content, RemindDetailsFragment.newInstance(model))
 //                    ?.commit()
+//        }
+    }
+
+    override fun onStarClick(model: Remind?, position: Int) {
+//        if (model != null) {
+//            mRemindViewModel.setStar(model)
+//            mAdapter.setStarOn(true, position, model)
 //        }
     }
 
@@ -112,5 +136,36 @@ class NewsFragment : Fragment(), OnRemindClickListener {
                 }
             }
         }
+    }
+
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun eventOnCreate() {
+        Timber.d("ON_CREATE")
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun eventOnStart() {
+        Timber.d("ON_START")
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun eventOnResume() {
+        Timber.d("ON_RESUME")
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun eventOnPause() {
+        Timber.d("ON_PAUSE")
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun eventOnStop() {
+        Timber.d("ON_STOP")
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun eventOnDestroy() {
+        Timber.d("ON_DESTROY")
     }
 }
