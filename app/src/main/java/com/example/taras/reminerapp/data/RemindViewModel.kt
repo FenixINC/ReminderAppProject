@@ -17,7 +17,7 @@ class RemindViewModel : ViewModel() {
 
     private val KEY = "key"
 
-    private var remind = Remind("TITLE", "20.20.20", "DESCRIPTION", "type_")
+    private var remind = Remind("TITLE", "20.20.20", "DESCRIPTION", "type_view_model")
 
     private var mRemindList: LiveData<List<Remind>> = AppDatabase.getInstance().remindDao().getList()
     private var mUserRemindList: LiveData<List<Remind>> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_USER_REMIND)

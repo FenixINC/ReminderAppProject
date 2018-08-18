@@ -23,6 +23,29 @@ import java.io.IOException
  */
 class DialogCreateRemind : DialogFragment() {
 
+    private var mTypeServer: String = Constants.SERVER_DEFAULT
+
+    companion object {
+        const val TYPE_SERVER = "type_server"
+        @JvmStatic
+        fun newInstance(typeServer: String): DialogCreateRemind {
+            val args = Bundle()
+            args.putString(TYPE_SERVER, typeServer)
+            val dialog = DialogCreateRemind()
+            dialog.arguments = args
+            return dialog
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val bundle: Bundle? = arguments
+        if (bundle != null) {
+            mTypeServer = bundle.getString(TYPE_SERVER)
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -37,7 +60,11 @@ class DialogCreateRemind : DialogFragment() {
                         dialog.description.text.toString(),
                         Constants.TYPE_USER_REMIND)
                 try {
-                    val response = ServiceGenerator.createService(RemindService::class.java).createRemind(remind).execute()
+                    when (mTypeServer) {
+                        Constants.SERVER_SPARK -> ServiceGenerator.createSparkService(RemindService::class.java).createRemind(remind).execute()
+//                        Constants.SERVER_JOOBY -> ServiceGenerator.createJoobyService(RemindService::class.java).createRemind(remind).execute()
+                        else -> ServiceGenerator.createService(RemindService::class.java).createRemind(remind).execute()
+                    }
                     AppDatabase.getInstance().remindDao().insert(remind)
                 } catch (e: IOException) {
                     Timber.e("Failed create user remind! ${e.message}")

@@ -14,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
+import com.example.taras.reminerapp.db.Constants;
 import com.example.taras.reminerapp.navigation.MainRemindFragment;
+import com.example.taras.reminerapp.navigation.SearchFragment;
 import com.example.taras.reminerapp.reminds.my.DialogCreateRemind;
 import com.example.taras.reminerapp.reminds.stars.StarsFragment;
 
@@ -70,12 +72,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                // Global search
-                break;
-            case R.id.action_create_remind:
-                new DialogCreateRemind().show(getSupportFragmentManager(), "create-remind-dialog");
-                break;
+            case R.id.action_search: {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, SearchFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
+            break;
+            case R.id.action_create_remind: {
+                DialogCreateRemind dialog = DialogCreateRemind.newInstance(Constants.SERVER_DEFAULT);
+                dialog.show(getSupportFragmentManager(), "create-remind-dialog");
+            }
+            break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -84,13 +92,19 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.nav_search: {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, SearchFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
+            break;
             case R.id.nav_star: {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_container, StarsFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
             }
-            break;
             case R.id.logout: {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();

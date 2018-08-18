@@ -5,21 +5,22 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.example.taras.reminerapp.databinding.ActivityLoginBinding
 import com.example.taras.reminerapp.db.AppDatabase
-import com.example.taras.reminerapp.db.model.Remind
-import com.example.taras.reminerapp.db.service.RemindService
+import com.example.taras.reminerapp.db.model.Login
 import com.example.taras.reminerapp.db.service.ServiceGenerator
-import com.hanks.passcodeview.PasscodeView
-import org.jetbrains.anko.doAsync
+import com.example.taras.reminerapp.db.service.UserService
+import okhttp3.ResponseBody
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
-import java.io.IOException
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
  */
-class LoginActivity : AppCompatActivity(), PasscodeView.PasscodeViewListener {
+class LoginActivity : AppCompatActivity() {
 
     lateinit var mBinding: ActivityLoginBinding
 
@@ -29,42 +30,67 @@ class LoginActivity : AppCompatActivity(), PasscodeView.PasscodeViewListener {
 
         AppDatabase.getInstance()
 
-        mBinding.password.listener = this
-        mBinding.password.localPasscode = "54321"
-    }
-
-    override fun onSuccess(password: String?) {
-        if (password.equals("54321")) {
-            Timber.d("Login is successful: $password")
+        mBinding.login.onClick {
             mBinding.setShowProgress(true)
 
-            doAsync {
-                try {
-                    val response: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
-                            .getList().execute()
+            val username: String = mBinding.username.text.toString()
+            val password: String = mBinding.password.text.toString()
 
-                    if (response.isSuccessful && response.body() != null) {
-                        AppDatabase.getInstance().remindDao().delete()
-                        AppDatabase.getInstance().remindDao().insert(response.body()!!)
+            val login: Login = Login()
+            login.setUsername(username)
+            login.setPassword(password)
+
+            val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).login(login)
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                    if (response!!.isSuccessful) {
+                        val message = response.body()?.source().toString()
+                        if (message.equals("true", true)) {
+
+                        }
+                        Timber.d("Login response successful.")
+                        mBinding.setShowProgress(false)
+                        startActivity(intentFor<MainActivity>())
+                        finish()
                     } else {
-                        Timber.e("Error loading reminds: ${response.code()}")
+                        mBinding.setShowProgress(false)
+                        return
                     }
-                } catch (e: IOException) {
-                    Timber.e("Failed load reminds! ${e.message}")
                 }
-                uiThread {
-                    mBinding.setShowProgress(false)
-                    startActivity(intentFor<MainActivity>()) // or startActivity<MainActivity>()
-//                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    finish()
-                }
-            }
-        } else {
-            Timber.d("Wrong password! $password")
-        }
-    }
 
-    override fun onFail() {
-        Timber.d("Can't login!")
+                override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                    Timber.w("Can not login.")
+                    mBinding.setShowProgress(false)
+                    alert {
+                        message = "ERROR RESPONSE!!"
+                    }
+                }
+            })
+
+//            doAsync {
+//                try {
+//                    val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).login(login)
+//                    val response: Response<ResponseBody> = call.execute()
+//                    if (response.isSuccessful) {
+//
+//                    }
+//
+////                    if (response.isSuccessful && response.body() != null) {
+////                        AppDatabase.getInstance().remindDao().delete()
+////                        AppDatabase.getInstance().remindDao().insert(response.body()!!)
+////                    } else {
+////                        Timber.e("Error loading reminds: ${response.code()}")
+////                    }
+//                } catch (e: IOException) {
+//                    Timber.e("Failed load reminds! ${e.message}")
+//                }
+//                uiThread {
+//                    mBinding.setShowProgress(false)
+//                    startActivity(intentFor<MainActivity>()) // or startActivity<MainActivity>()
+////                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+//                    finish()
+//                }
+//            }
+        }
     }
 }

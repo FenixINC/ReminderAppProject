@@ -14,13 +14,27 @@ class ServiceGenerator {
         private val httpClient = OkHttpClient.Builder()
 
         private val builder: Retrofit.Builder = Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(Constants.BASE_)
                 .addConverterFactory(GsonConverterFactory.create())
 
         fun <S> createService(serviceClass: Class<S>): S {
             val client = httpClient
                     .build()
             val retrofit = builder
+                    .client(client)
+                    .build()
+            return retrofit.create(serviceClass)
+        }
+
+        //--- Spark:
+        private val builderSpark: Retrofit.Builder = Retrofit.Builder()
+                .baseUrl(Constants.BASE_SPARK_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+
+        fun <S> createSparkService(serviceClass: Class<S>): S {
+            val client = httpClient
+                    .build()
+            val retrofit = builderSpark
                     .client(client)
                     .build()
             return retrofit.create(serviceClass)

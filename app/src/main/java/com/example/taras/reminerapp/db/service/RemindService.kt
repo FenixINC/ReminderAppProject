@@ -24,4 +24,11 @@ interface RemindService {
 
     @DELETE("/reminder/delete")
     fun delete(@Query("id") id: Int): Call<ResponseBody>
+
+    //--- Spark Server:
+//    @POST("/reminder/create")
+//    fun createRemind(@Body remind: Remind): Call<ResponseBody>
+
+    @GET("/reminder/get-all")
+    fun getSparkList(): Call<List<Remind>>
 }
