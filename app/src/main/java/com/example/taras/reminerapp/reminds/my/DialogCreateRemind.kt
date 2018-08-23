@@ -60,11 +60,7 @@ class DialogCreateRemind : DialogFragment() {
                         dialog.description.text.toString(),
                         Constants.TYPE_USER_REMIND)
                 try {
-                    when (mTypeServer) {
-                        Constants.SERVER_SPARK -> ServiceGenerator.createSparkService(RemindService::class.java).createRemind(remind).execute()
-//                        Constants.SERVER_JOOBY -> ServiceGenerator.createJoobyService(RemindService::class.java).createRemind(remind).execute()
-                        else -> ServiceGenerator.createService(RemindService::class.java).createRemind(remind).execute()
-                    }
+                    ServiceGenerator.createService(RemindService::class.java).createRemind(remind).execute()
                     AppDatabase.getInstance().remindDao().insert(remind)
                 } catch (e: IOException) {
                     Timber.e("Failed create user remind! ${e.message}")
