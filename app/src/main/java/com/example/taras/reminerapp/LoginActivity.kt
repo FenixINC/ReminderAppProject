@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
 
         AppDatabase.getInstance()
 
+        //--- Login/server user check:
         mBinding.login.onClick { it ->
             mBinding.setShowProgress(true)
 
@@ -44,8 +45,8 @@ class LoginActivity : AppCompatActivity() {
 
             val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).login(login)
             call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-                    if (response!!.isSuccessful) {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if (response.isSuccessful) {
                         val message = response.body()?.string()?.replace("\"", "").toString()
                         if (message.equals("Wrong password!", true)) {
                             Timber.d(message)
@@ -62,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
                         mBinding.setShowProgress(false)
                         alert("Wrong password, or user cannot be found!") {
                             positiveButton("Ok") {}
+                            //TODO: rewrite customView like negativeButton:
                             customView {
                                 linearLayout {
                                     padding = dip(16)
@@ -89,6 +91,16 @@ class LoginActivity : AppCompatActivity() {
                     alert("Server unavailable!") { positiveButton("Ok") {} }.show()
                 }
             })
+        }
+
+        //--- Create new User:
+        mBinding.createNewUser.onClick {
+            toast("Not yet implemented!")
+        }
+
+        //--- Reset password:
+        mBinding.resetPassword.onClick {
+            toast("Not yet implemented")
         }
     }
 }
