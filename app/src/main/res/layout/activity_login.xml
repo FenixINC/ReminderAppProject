@@ -26,6 +26,15 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/logo_remind" />
 
+            <TextView
+                style="@style/SansationBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Sign in"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
             <LinearLayout
                 android:id="@+id/area_login"
                 android:layout_width="match_parent"
@@ -33,7 +42,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/background_white"
                 android:orientation="vertical"
                 android:paddingEnd="16dp"
@@ -80,40 +89,47 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/background_white"
                 android:text="Login"
                 android:textAllCaps="false"
                 android:textColor="@color/text"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/create_new_user"
-                style="@style/SansationBold"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:gravity="center"
-                android:text="No account yet? Create one"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/reset_password"
-                style="@style/SansationBold"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:text="Reset password"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/create_account"
+                    style="@style/SansationBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Create Account"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <!--<TextView-->
+                <!--android:id="@+id/reset_password"-->
+                <!--style="@style/SansationBold"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="48dp"-->
+                <!--android:layout_marginEnd="16dp"-->
+                <!--android:layout_marginStart="4dp"-->
+                <!--android:layout_weight="2"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Reset password"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="18sp" />-->
+            </LinearLayout>
         </LinearLayout>
 
         <FrameLayout

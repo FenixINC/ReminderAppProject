@@ -1,17 +1,13 @@
 package com.example.taras.reminerapp.db.model;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by Taras Koloshmatin on 15.08.2018
  */
 public class Login {
 
-    @SerializedName("username")
-    public String username;
+    private String username;
 
-    @SerializedName("password")
-    public String password;
+    private String password;
 
 
     public void setUsername(String username) {
@@ -20,5 +16,13 @@ public class Login {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
