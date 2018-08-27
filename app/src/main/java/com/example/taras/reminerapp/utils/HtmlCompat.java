@@ -6,7 +6,7 @@ import android.text.Html;
 import android.text.Spanned;
 
 /**
- * Created by Oleh Mereshchuk on 4/12/2018
+ * Created by Taras Koloshmatin on 27.08.2018
  */
 public class HtmlCompat {
     public static Spanned fromHtml(String html) {
