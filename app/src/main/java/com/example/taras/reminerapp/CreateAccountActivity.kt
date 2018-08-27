@@ -3,6 +3,7 @@ package com.example.taras.reminerapp
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import com.example.taras.reminerapp.databinding.ActivityCreateAccountBinding
 import com.example.taras.reminerapp.db.model.Login
 import com.example.taras.reminerapp.db.service.ServiceGenerator
@@ -35,36 +36,43 @@ class CreateAccountActivity : AppCompatActivity() {
             finish()
         }
         mBinding.btnCreate.onClick {
-            mBinding.setShowProgress(true)
+            if (!TextUtils.isEmpty(mBinding.username.text.toString())
+                    && !TextUtils.isEmpty(mBinding.password.text.toString())) {
 
-            val login = Login()
-            login.username = mBinding.username.text.toString()
-            login.password = mBinding.password.text.toString()
+                mBinding.setShowProgress(true)
 
-            val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).create(login)
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    val message = response.body()?.string()?.replace("\"", "").toString()
-                    if (response.isSuccessful) {
-                        Timber.d(message)
-                        mBinding.setShowProgress(false)
-                        alert(HtmlCompat.fromHtml(message)) { positiveButton("Ok") {} }.show()
-                        return
-                    } else {
-                        Timber.d("Login response successful.")
-                        mBinding.setShowProgress(false)
-                        startActivity(intentFor<LoginActivity>(
-                                "message" to "User <b>${login.username}</b> was successfully created"))
-                        finish()
+                val login = Login()
+                login.username = mBinding.username.text.toString()
+                login.password = mBinding.password.text.toString()
+
+                val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).create(login)
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        val message: String = response.body()?.string()?.replace("\"", "").toString()
+                        if (response.isSuccessful) {
+                            Timber.d("Login response successful.")
+                            mBinding.setShowProgress(false)
+                            startActivity(intentFor<LoginActivity>(
+                                    "message" to "User <b>${login.username}</b> was successfully created"))
+                            finish()
+                        } else {
+                            Timber.d("Cannot create user. This user is already exists!")
+                            mBinding.setShowProgress(false)
+                            alert(HtmlCompat.fromHtml(
+                                    "Cannot create user. This user <b>${login.username}</b> is already exists!")) {
+                                positiveButton("Ok") {}
+                            }.show()
+                            return
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                    Timber.w("Can not create. ${t?.message}")
-                    mBinding.setShowProgress(false)
-                    alert("Server unavailable!") { positiveButton("Ok") {} }.show()
-                }
-            })
+                    override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                        Timber.w("Can not create. ${t?.message}")
+                        mBinding.setShowProgress(false)
+                        alert("Server unavailable!") { positiveButton("Ok") {} }.show()
+                    }
+                })
+            }
         }
     }
 }
