@@ -116,19 +116,19 @@
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
-                <!--<TextView-->
-                <!--android:id="@+id/reset_password"-->
-                <!--style="@style/SansationBold"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="48dp"-->
-                <!--android:layout_marginEnd="16dp"-->
-                <!--android:layout_marginStart="4dp"-->
-                <!--android:layout_weight="2"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Reset password"-->
-                <!--android:textAllCaps="false"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="18sp" />-->
+                <TextView
+                    android:id="@+id/reset_password"
+                    style="@style/SansationBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Forgot password?"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
 
