@@ -38,59 +38,13 @@ class LoginActivity : AppCompatActivity() {
 
         AppDatabase.getInstance()
 
-//        val message = intent?.extras?.getString("message")
-//        if (!TextUtils.isEmpty(message)) {
-//            messageDialog(message!!)
-//        }
-
-        //--- Login/server user login:
+        //--- Login:
         mBinding.login.onClick {
             if (!TextUtils.isEmpty(mBinding.username.text.toString())
                     && !TextUtils.isEmpty(mBinding.password.text.toString())) {
 
                 mBinding.setShowProgress(true)
-
-                val username: String = mBinding.username.text.toString()
-                val password: String = mBinding.password.text.toString()
-
-                val login = Login()
-                login.username = username
-                login.password = password
-
-                val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).login(login)
-                call.enqueue(object : Callback<ResponseBody> {
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        if (response.isSuccessful) {
-                            val message = response.body()?.string()?.replace("\"", "").toString()
-                            if (message.equals("Wrong password!", true)) {
-                                Timber.d(message)
-                                mBinding.setShowProgress(false)
-                                toast(message)
-                                return
-                            } else {
-                                Timber.d("Login response successful.")
-                                mBinding.setShowProgress(false)
-                                startActivity(intentFor<MainActivity>())
-                                finish()
-                            }
-                        } else {
-                            mBinding.setShowProgress(false)
-                            alert("Wrong password, or user cannot be found!") {
-                                okButton {}
-                                neutralPressed("Create Account") {
-                                    customDialog(false)
-                                }
-                            }.show()
-                            return
-                        }
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                        Timber.w("Can not create. ${t?.message}")
-                        mBinding.setShowProgress(false)
-                        alert("Server unavailable!") { okButton {} }.show()
-                    }
-                })
+                login(mBinding.username.text.toString(), mBinding.password.text.toString())
             } else if (!TextUtils.isEmpty(mBinding.username.text.toString())
                     && TextUtils.isEmpty(mBinding.password.text.toString())) {
                 messageDialog("Please, enter the password!")
@@ -128,15 +82,19 @@ class LoginActivity : AppCompatActivity() {
     private fun customDialog(isResetPassword: Boolean) {
         val messageTitle: String
         val messageButton: String
+        val hintPassword: String
+
         var usernameEditText = EditText(ctx)
         var passwordEditText = EditText(ctx)
 
         if (isResetPassword) {
             messageTitle = "Reset Password"
             messageButton = "Reset"
+            hintPassword = "Enter new password"
         } else {
             messageTitle = "Create Account"
             messageButton = "Create"
+            hintPassword = "Password"
         }
 
         mDialog = alert {
@@ -174,7 +132,7 @@ class LoginActivity : AppCompatActivity() {
                         )
 
                         passwordEditText = editText {
-                            hint = "Password"
+                            hint = hintPassword
                             hintTextColor = ResourcesCompat.getColor(resources, R.color.text, null)
                             textColor = ResourcesCompat.getColor(resources, R.color.text, null)
                             background = ResourcesCompat.getDrawable(resources, R.drawable.background_white, null)
@@ -204,7 +162,11 @@ class LoginActivity : AppCompatActivity() {
                                 val password = passwordEditText.text.toString()
                                 if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
                                     mDialog.dismiss()
-                                    createAccount(username, password)
+                                    if (!isResetPassword) {
+                                        createAccount(username, password)
+                                    } else {
+                                        resetPassword(username, password)
+                                    }
                                 } else if (TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
                                     messageDialog("Please, enter username!")
                                 } else if (!TextUtils.isEmpty(username) && TextUtils.isEmpty(password)) {
@@ -239,28 +201,68 @@ class LoginActivity : AppCompatActivity() {
                     }.lparams(
                             width = matchParent,
                             height = wrapContent) {
-                        topMargin = dip(30)
+                        topMargin = dip(40)
                     }
                 }
             }
         }.show()
     }
 
+    private fun login(username: String, password: String) {
+        val login = Login()
+        login.username = username
+        login.password = password
+
+        val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).userLogin(login)
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    val message = response.body()?.string()?.replace("\"", "").toString()
+                    if (message.equals("Wrong password!", true)) {
+                        Timber.d(message)
+                        mBinding.setShowProgress(false)
+                        toast(message)
+                        return
+                    } else {
+                        Timber.d("Login response successful.")
+                        mBinding.setShowProgress(false)
+                        startActivity(intentFor<MainActivity>())
+                        finish()
+                    }
+                } else {
+                    mBinding.setShowProgress(false)
+                    alert("Wrong password, or user cannot be found!") {
+                        okButton {}
+                        neutralPressed("Create Account") {
+                            customDialog(false)
+                        }
+                    }.show()
+                    return
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                Timber.w("Cannot login. ${t?.message}")
+                mBinding.setShowProgress(false)
+                alert("Server unavailable!") { okButton {} }.show()
+            }
+        })
+    }
+
     private fun createAccount(username: String, password: String) {
         val login = Login()
         login.username = username
         login.password = password
-        val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).create(login)
+
+        val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).userCreate(login)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val message: String = response.body()?.string()?.replace("\"", "").toString()
                 if (response.isSuccessful) {
                     Timber.d("Login response successful.")
                     mBinding.setShowProgress(false)
-                    alert(HtmlCompat.fromHtml("User <b>${login.username}</b> was successfully created")) {
+                    alert(HtmlCompat.fromHtml("User <b>${login.username}</b> was successfully created.")) {
                         okButton {}
                     }.show()
-
                 } else {
                     Timber.d("Cannot create user. This user is already exists!")
                     mBinding.setShowProgress(false)
@@ -273,7 +275,39 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                Timber.w("Can not create. ${t?.message}")
+                Timber.w("Cannot create user. ${t?.message}")
+                mBinding.setShowProgress(false)
+                alert("Server unavailable!") { okButton {} }.show()
+            }
+        })
+    }
+
+    private fun resetPassword(username: String, password: String) {
+        val login = Login()
+        login.username = username
+        login.password = password
+        val call: Call<ResponseBody> = ServiceGenerator.createService(UserService::class.java).userResetPassword(login)
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Timber.d("Reset password response successful.")
+                    mBinding.setShowProgress(false)
+                    alert(HtmlCompat.fromHtml("Successful reset password for user <b>${login.username}</b>.")) {
+                        okButton {}
+                    }.show()
+                } else {
+                    Timber.d("Cannot reset password. This user <b>${login.username}</b> is absent!")
+                    mBinding.setShowProgress(false)
+                    alert(HtmlCompat.fromHtml(
+                            "Cannot reset password!")) {
+                        okButton {}
+                    }.show()
+                    return
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Timber.w("Can not reset password. ${t.message}")
                 mBinding.setShowProgress(false)
                 alert("Server unavailable!") { okButton {} }.show()
             }

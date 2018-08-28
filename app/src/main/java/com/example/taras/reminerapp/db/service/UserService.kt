@@ -12,10 +12,13 @@ import retrofit2.http.POST
 interface UserService {
 
     @POST("/login/login")
-    fun login(@Body login: Login): Call<ResponseBody>
+    fun userLogin(@Body login: Login): Call<ResponseBody>
 
     @POST("/login/create")
-    fun create(@Body login: Login): Call<ResponseBody>
+    fun userCreate(@Body login: Login): Call<ResponseBody>
+
+    @POST("/login/reset")
+    fun userResetPassword(@Body login: Login): Call<ResponseBody>
 
 //    @FormUrlEncoded
 //    @POST("/create/create-user")
