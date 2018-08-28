@@ -1,6 +1,5 @@
 package com.example.taras.reminerapp
 
-import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -32,7 +31,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityLoginBinding
     private lateinit var mDialog: DialogInterface
-    private lateinit var mProgressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +43,7 @@ class LoginActivity : AppCompatActivity() {
             if (!TextUtils.isEmpty(mBinding.username.text.toString())
                     && !TextUtils.isEmpty(mBinding.password.text.toString())) {
 
-                mProgressDialog = indeterminateProgressDialog(message = "Please wait a minute..") {}
-                mProgressDialog.setCanceledOnTouchOutside(false)
-                mProgressDialog.show()
+                mBinding.setShowProgress(true)
                 login(mBinding.username.text.toString(), mBinding.password.text.toString())
             } else if (!TextUtils.isEmpty(mBinding.username.text.toString())
                     && TextUtils.isEmpty(mBinding.password.text.toString())) {
@@ -63,17 +59,13 @@ class LoginActivity : AppCompatActivity() {
 
         //--- Create new User:
         mBinding.createAccount.onClick {
-            mProgressDialog = indeterminateProgressDialog(message = "Please wait a minute..") {}
-            mProgressDialog.setCanceledOnTouchOutside(false)
-            mProgressDialog.show()
+            mBinding.setShowProgress(false)
             customDialog(false)
         }
 
         //--- Reset password:
         mBinding.resetPassword.onClick {
-            mProgressDialog = indeterminateProgressDialog(message = "Please wait a minute..") {}
-            mProgressDialog.setCanceledOnTouchOutside(false)
-            mProgressDialog.show()
+            mBinding.setShowProgress(false)
             customDialog(true)
         }
 
@@ -83,7 +75,6 @@ class LoginActivity : AppCompatActivity() {
         *            val username: String? = intent?.getString("username")
         * */
     }
-
 
     private fun messageDialog(message: String) {
         alert(HtmlCompat.fromHtml(message)) { okButton {} }.show()
@@ -146,7 +137,7 @@ class LoginActivity : AppCompatActivity() {
                             hintTextColor = ResourcesCompat.getColor(resources, R.color.text, null)
                             textColor = ResourcesCompat.getColor(resources, R.color.text, null)
                             background = ResourcesCompat.getDrawable(resources, R.drawable.background_white, null)
-                            inputType = InputType.TYPE_CLASS_TEXT
+                            inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
                         }.lparams(
                                 width = matchParent,
                                 height = wrapContent
@@ -173,8 +164,10 @@ class LoginActivity : AppCompatActivity() {
                                 if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
                                     mDialog.dismiss()
                                     if (!isResetPassword) {
+                                        mBinding.setShowProgress(true)
                                         createAccount(username, password)
                                     } else {
+                                        mBinding.setShowProgress(true)
                                         resetPassword(username, password)
                                     }
                                 } else if (TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
@@ -201,6 +194,7 @@ class LoginActivity : AppCompatActivity() {
                             gravity = Gravity.CENTER
                             onClick {
                                 mDialog.dismiss()
+                                mBinding.setShowProgress(false)
                             }
                         }.lparams(
                                 width = wrapContent,
@@ -230,17 +224,18 @@ class LoginActivity : AppCompatActivity() {
                     val message = response.body()?.string()?.replace("\"", "").toString()
                     if (message.equals("Wrong password!", true)) {
                         Timber.d(message)
-                        mProgressDialog.dismiss()
+                        mBinding.setShowProgress(false)
                         toast(message)
                         return
                     } else {
                         Timber.d("Login response successful.")
-                        mProgressDialog.dismiss()
+                        mBinding.setShowProgress(false)
                         startActivity(intentFor<MainActivity>())
                         finish()
                     }
                 } else {
-                    mProgressDialog.dismiss()
+                    Timber.d("Wrong password or user cannot be found!")
+                    mBinding.setShowProgress(false)
                     alert("Wrong password, or user cannot be found!") {
                         okButton {}
                         neutralPressed("Create Account") {
@@ -253,7 +248,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                 Timber.w("Cannot login. ${t?.message}")
-                mProgressDialog.dismiss()
+                mBinding.setShowProgress(false)
                 alert("Server unavailable!") { okButton {} }.show()
             }
         })
@@ -269,13 +264,13 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Timber.d("Login response successful.")
-                    mProgressDialog.dismiss()
+                    mBinding.setShowProgress(false)
                     alert(HtmlCompat.fromHtml("User <b>${login.username}</b> was successfully created.")) {
                         okButton {}
                     }.show()
                 } else {
-                    Timber.d("Cannot create user. This user is already exists!")
-                    mProgressDialog.dismiss()
+                    Timber.d("Cannot create user. This user ${login.username} is already exists!")
+                    mBinding.setShowProgress(false)
                     alert(HtmlCompat.fromHtml(
                             "Cannot create user. This user <b>${login.username}</b> is already exists!")) {
                         okButton {}
@@ -286,7 +281,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                 Timber.w("Cannot create user. ${t?.message}")
-                mProgressDialog.dismiss()
+                mBinding.setShowProgress(false)
                 alert("Server unavailable!") { okButton {} }.show()
             }
         })
@@ -301,13 +296,13 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Timber.d("Reset password response successful.")
-                    mProgressDialog.dismiss()
+                    mBinding.setShowProgress(false)
                     alert(HtmlCompat.fromHtml("Successful reset password for user <b>${login.username}</b>.")) {
                         okButton {}
                     }.show()
                 } else {
                     Timber.d("Cannot reset password. This user <b>${login.username}</b> is absent!")
-                    mProgressDialog.dismiss()
+                    mBinding.setShowProgress(false)
                     alert(HtmlCompat.fromHtml(
                             "Cannot reset password!")) {
                         okButton {}
@@ -318,7 +313,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Timber.w("Can not reset password. ${t.message}")
-                mProgressDialog.dismiss()
+                mBinding.setShowProgress(false)
                 alert("Server unavailable!") { okButton {} }.show()
             }
         })
