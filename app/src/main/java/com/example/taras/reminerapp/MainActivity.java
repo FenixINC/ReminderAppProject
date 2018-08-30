@@ -16,12 +16,11 @@ import android.view.MenuItem;
 import com.example.taras.reminerapp.databinding.ActivityMainBinding;
 import com.example.taras.reminerapp.db.Constants;
 import com.example.taras.reminerapp.navigation.MainRemindFragment;
-import com.example.taras.reminerapp.navigation.SearchFragment;
-import com.example.taras.reminerapp.reminds.my.DialogCreateRemind;
-import com.example.taras.reminerapp.reminds.stars.StarsFragment;
+import com.example.taras.reminerapp.reminds.DialogCreateRemind;
+import com.example.taras.reminerapp.search.SearchFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnPageListener {
 
     private ActivityMainBinding mBinding;
 
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity
 
         mBinding.navView.setNavigationItemSelectedListener(this);
 
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> lockDrawer(getSupportFragmentManager().getBackStackEntryCount() != 0));
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, MainRemindFragment.newInstance())
                 .commit();
@@ -53,12 +53,18 @@ public class MainActivity extends AppCompatActivity
         return adapter.getItem(position);
     }
 
+    private boolean closeDrawer() {
+        boolean result = false;
+        if (mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mBinding.drawerLayout.closeDrawer(GravityCompat.START);
+            result = true;
+        }
+        return result;
+    }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+        if (!closeDrawer()) {
             super.onBackPressed();
         }
     }
@@ -99,12 +105,6 @@ public class MainActivity extends AppCompatActivity
                         .commit();
             }
             break;
-            case R.id.nav_star: {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, StarsFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
-            }
             case R.id.logout: {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
@@ -113,5 +113,18 @@ public class MainActivity extends AppCompatActivity
         }
         mBinding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void lockDrawer(boolean isLock) {
+        mBinding.drawerLayout.setDrawerLockMode(isLock ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    @Override
+    public void onPageNavigation(@NonNull Fragment fragment) {
+        lockDrawer(true);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

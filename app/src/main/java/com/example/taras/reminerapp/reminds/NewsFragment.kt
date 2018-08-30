@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.reminds.content
+package com.example.taras.reminerapp.reminds
 
 import android.arch.lifecycle.*
 import android.os.Bundle
@@ -15,8 +15,6 @@ import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Remind
 import com.example.taras.reminerapp.db.service.RemindService
 import com.example.taras.reminerapp.db.service.ServiceGenerator
-import com.example.taras.reminerapp.reminds.OnRemindClickListener
-import com.example.taras.reminerapp.reminds.RemindAdapter
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Response
@@ -56,7 +54,6 @@ class NewsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.toolbar.visibility = View.GONE
         mBinding.swipeRefresh.isRefreshing = true
 
         val rv: RecyclerView = mBinding.recyclerView

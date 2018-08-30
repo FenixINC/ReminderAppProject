@@ -1,6 +1,5 @@
-package com.example.taras.reminerapp.navigation
+package com.example.taras.reminerapp.search
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -8,11 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.taras.reminerapp.BaseFragment
-import com.example.taras.reminerapp.data.RemindViewModel
-import com.example.taras.reminerapp.databinding.FragmentContentBinding
+import com.example.taras.reminerapp.databinding.FragmentSearchBinding
+import com.example.taras.reminerapp.db.AppDatabase
 import com.example.taras.reminerapp.db.model.Remind
 import com.example.taras.reminerapp.reminds.OnRemindClickListener
 import com.example.taras.reminerapp.reminds.RemindAdapter
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.uiThread
 import timber.log.Timber
 
 /**
@@ -20,9 +22,8 @@ import timber.log.Timber
  */
 class SearchFragment : BaseFragment(), OnRemindClickListener {
 
-    private lateinit var mBinding: FragmentContentBinding
+    private lateinit var mBinding: FragmentSearchBinding
     private lateinit var mAdapter: RemindAdapter
-    private lateinit var mRemindViewModel: RemindViewModel
 
     companion object {
         @JvmStatic
@@ -33,11 +34,10 @@ class SearchFragment : BaseFragment(), OnRemindClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mRemindViewModel = ViewModelProviders.of(activity!!).get(RemindViewModel::class.java)
     }
 
     override fun onCreateFragmentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mBinding = FragmentContentBinding.inflate(inflater, container, false)
+        mBinding = FragmentSearchBinding.inflate(inflater, container, false)
         mAdapter = RemindAdapter(this)
         return mBinding.root
     }
@@ -47,22 +47,31 @@ class SearchFragment : BaseFragment(), OnRemindClickListener {
 
         setTitle("Search")
 
-        mBinding.toolbar.visibility = View.VISIBLE
-        mBinding.swipeRefresh.isRefreshing = false
-
         val rv: RecyclerView = mBinding.recyclerView
         rv.layoutManager = LinearLayoutManager(activity?.applicationContext) as RecyclerView.LayoutManager
         rv.setHasFixedSize(true)
         rv.adapter = mAdapter
 
-        mBinding.swipeRefresh.setOnRefreshListener { setSearchList() }
-
-        setSearchList()
+        mBinding.btnClear.onClick { mBinding.editSearch.setText("") }
+        mBinding.btnSearch.onClick {
+            val text: String = mBinding.editSearch.text.toString()
+            if (text.length > 2) {
+                setSearchList(text)
+                if (mAdapter.itemCount == 0) {
+                    mBinding.emptyText.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
-    private fun setSearchList() {
-
-        mBinding.swipeRefresh.isRefreshing = false
+    private fun setSearchList(search: String) {
+        var list: List<Remind>
+        doAsync {
+            list = AppDatabase.getInstance().remindDao().getSearchList(search, search)
+            uiThread {
+                mAdapter.setList(list)
+            }
+        }
     }
 
     override fun onModelClick(model: Remind?) {

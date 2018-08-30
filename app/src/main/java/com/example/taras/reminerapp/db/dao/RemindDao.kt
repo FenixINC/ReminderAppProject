@@ -34,4 +34,7 @@ interface RemindDao {
 
     @Query("SELECT * FROM tblRemind WHERE type_remind = :typeRemind ORDER BY id ASC")
     fun getListByType(typeRemind: String): LiveData<List<Remind>>
+
+    @Query("SELECT * FROM tblRemind WHERE title LIKE ''||:title||'' AND description LIKE ''||:description||''")
+    fun getSearchList(title: String, description: String): List<Remind>
 }

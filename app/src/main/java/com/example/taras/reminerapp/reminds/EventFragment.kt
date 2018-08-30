@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.reminds.content
+package com.example.taras.reminerapp.reminds
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -14,8 +14,6 @@ import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.data.RemindViewModel
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
 import com.example.taras.reminerapp.db.model.Remind
-import com.example.taras.reminerapp.reminds.OnRemindClickListener
-import com.example.taras.reminerapp.reminds.RemindAdapter
 import timber.log.Timber
 
 /**
@@ -46,7 +44,6 @@ class EventFragment : Fragment(), OnRemindClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.toolbar.visibility = View.GONE
         mBinding.swipeRefresh.isRefreshing = true
 
         val rv: RecyclerView = mBinding.recyclerView

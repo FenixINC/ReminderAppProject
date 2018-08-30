@@ -1,4 +1,4 @@
-package com.example.taras.reminerapp.reminds.my
+package com.example.taras.reminerapp.reminds
 
 import android.app.Dialog
 import android.os.Bundle

@@ -3,8 +3,9 @@ package com.example.taras.reminerapp
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
-import android.view.*
-import com.example.taras.reminerapp.R
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import timber.log.Timber
 
 /**
@@ -36,21 +37,5 @@ abstract class BaseFragment : Fragment() {
         if (isToolbar()) {
             mToolbar.title = title
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, menuInflater)
-        activity?.menuInflater?.inflate(R.menu.menu, menu)
-        mToolbar.inflateMenu(R.menu.menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_search -> {
-            }
-            R.id.action_create_remind -> {
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
