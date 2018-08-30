@@ -18,6 +18,7 @@ class RemindViewModel : ViewModel() {
     private val KEY = "key"
 
     private var remind = Remind("TITLE", "20.20.20", "DESCRIPTION", "type_view_model")
+    private var mUserList = ArrayList<Remind>()
 
     private var mRemindList: LiveData<List<Remind>> = AppDatabase.getInstance().remindDao().getList()
     private var mUserRemindList: LiveData<List<Remind>> = AppDatabase.getInstance().remindDao().getListByType(Constants.TYPE_USER_REMIND)
@@ -49,14 +50,15 @@ class RemindViewModel : ViewModel() {
 
 
     fun saveState(outState: Bundle) {
-        outState.putParcelable(KEY, remind)
+//        outState.putParcelable(KEY, remind)
+        outState.putParcelableArrayList(KEY, mUserList)
     }
 
     fun restoreState(bundle: Bundle?) {
         bundle?.let {
-            remind = bundle.getParcelable(KEY)
+            mUserList = bundle.getParcelableArrayList(KEY)
             doAsync {
-                AppDatabase.getInstance().remindDao().insert(remind)
+                AppDatabase.getInstance().remindDao().insert(mUserList)
             }
         }
     }
