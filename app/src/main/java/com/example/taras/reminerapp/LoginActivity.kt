@@ -120,8 +120,10 @@ class LoginActivity : AppCompatActivity() {
                         orientation = LinearLayout.VERTICAL
 
                         usernameEditText = editText {
+                            textSize = 16f
                             hint = "Username"
                             hintTextColor = ResourcesCompat.getColor(resources, R.color.text, null)
+                            typeface = ResourcesCompat.getFont(applicationContext, R.font.font_sansation_light)
                             textColor = ResourcesCompat.getColor(resources, R.color.text, null)
                             background = ResourcesCompat.getDrawable(resources, R.drawable.background_white, null)
                             inputType = InputType.TYPE_CLASS_TEXT
@@ -138,8 +140,10 @@ class LoginActivity : AppCompatActivity() {
                         )
 
                         passwordEditText = editText {
+                            textSize = 16f
                             hint = hintPassword
                             hintTextColor = ResourcesCompat.getColor(resources, R.color.text, null)
+                            typeface = ResourcesCompat.getFont(applicationContext, R.font.font_sansation_light)
                             textColor = ResourcesCompat.getColor(resources, R.color.text, null)
                             background = ResourcesCompat.getDrawable(resources, R.drawable.background_white, null)
                             inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
@@ -160,7 +164,9 @@ class LoginActivity : AppCompatActivity() {
                             text = messageButton
                             isAllCaps = false
                             padding = dip(10)
+                            textSize = 18f
                             textColor = ResourcesCompat.getColor(resources, R.color.white, null)
+                            typeface = ResourcesCompat.getFont(applicationContext, R.font.font_sansation_bold)
                             background = ResourcesCompat.getDrawable(resources, R.drawable.background, null)
                             gravity = Gravity.CENTER
                             onClick {
@@ -194,7 +200,9 @@ class LoginActivity : AppCompatActivity() {
                             text = "Cancel"
                             isAllCaps = false
                             padding = dip(10)
+                            textSize = 18f
                             textColor = ResourcesCompat.getColor(resources, R.color.white, null)
+                            typeface = ResourcesCompat.getFont(applicationContext, R.font.font_sansation_bold)
                             background = ResourcesCompat.getDrawable(resources, R.drawable.background, null)
                             gravity = Gravity.CENTER
                             onClick {
