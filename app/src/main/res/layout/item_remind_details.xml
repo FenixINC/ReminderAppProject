@@ -11,34 +11,48 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <TextView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{model.title}"
-            android:textColor="@color/text"
-            android:textSize="20sp"
-            tools:text="Title" />
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/AppTheme.Toolbar" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@{model.remindDate}"
-            android:textSize="18sp"
-            tools:text="Remind Date" />
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:lineSpacingExtra="3dp"
-            android:text="@{model.description}"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            tools:text="@tools:sample/lorem/random" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{model.title}"
+                android:textColor="@color/text"
+                android:textSize="20sp"
+                tools:text="Title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@{model.remindDate}"
+                android:textSize="18sp"
+                tools:text="Remind Date" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:lineSpacingExtra="3dp"
+                android:text="@{model.description}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:text="@tools:sample/lorem/random" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

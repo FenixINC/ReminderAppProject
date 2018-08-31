@@ -26,26 +26,10 @@ import timber.log.Timber
  */
 class DialogCreateRemind : DialogFragment() {
 
-    private var mTypeServer: String = Constants.SERVER_DEFAULT
-
     companion object {
-        const val TYPE_SERVER = "type_server"
         @JvmStatic
-        fun newInstance(typeServer: String): DialogCreateRemind {
-            val args = Bundle()
-            args.putString(TYPE_SERVER, typeServer)
-            val dialog = DialogCreateRemind()
-            dialog.arguments = args
-            return dialog
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val bundle: Bundle? = arguments
-        if (bundle != null) {
-            mTypeServer = bundle.getString(TYPE_SERVER)
+        fun newInstance(): DialogCreateRemind {
+            return DialogCreateRemind()
         }
     }
 

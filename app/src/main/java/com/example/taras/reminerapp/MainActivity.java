@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
             }
             break;
             case R.id.action_create_remind: {
-                DialogCreateRemind dialog = DialogCreateRemind.newInstance(Constants.SERVER_DEFAULT);
+                DialogCreateRemind dialog = DialogCreateRemind.newInstance();
                 dialog.show(getSupportFragmentManager(), "create-remind-dialog");
             }
             break;

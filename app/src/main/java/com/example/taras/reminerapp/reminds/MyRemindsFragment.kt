@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.example.taras.reminerapp.OnPageListener
 import com.example.taras.reminerapp.R
 import com.example.taras.reminerapp.data.RemindViewModel
 import com.example.taras.reminerapp.databinding.FragmentContentBinding
@@ -74,7 +75,7 @@ class MyRemindsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
         rv.adapter = mAdapter
 
         mBinding.btnCreate.onClick {
-            val dialog = DialogCreateRemind.newInstance(Constants.SERVER_DEFAULT)
+            val dialog = DialogCreateRemind.newInstance()
             dialog.setTargetFragment(this@MyRemindsFragment, 1)
             dialog.show(fragmentManager, "create-remind-dialog")
         }
@@ -82,7 +83,7 @@ class MyRemindsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
         mBinding.swipeRefresh.setOnRefreshListener {
             refreshUserRemindsTask()
         }
-//        refreshUserRemindsTask()
+
         setUserRemindList()
     }
 
@@ -98,6 +99,9 @@ class MyRemindsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
 
     override fun onModelClick(model: Remind?) {
         Timber.d("Clicked model: ${model?.toString()}")
+        if (activity is OnPageListener) {
+            (activity as OnPageListener).onPageNavigation(RemindDetailsFragment.newInstance(model!!))
+        }
     }
 
     override fun onStarClick(model: Remind?, position: Int) {
