@@ -12,7 +12,10 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.example.taras.reminerapp.databinding.ActivityLoginBinding
 import com.example.taras.reminerapp.db.AppDatabase
+import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Login
+import com.example.taras.reminerapp.db.model.Remind
+import com.example.taras.reminerapp.db.service.RemindService
 import com.example.taras.reminerapp.db.service.ServiceGenerator
 import com.example.taras.reminerapp.db.service.UserService
 import com.example.taras.reminerapp.utils.HtmlCompat
@@ -23,6 +26,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import java.io.IOException
+import java.lang.ref.WeakReference
 
 /**
  * Created by Taras Koloshmatin on 28.07.2018
@@ -229,9 +234,35 @@ class LoginActivity : AppCompatActivity() {
                         return
                     } else {
                         Timber.d("Login response successful.")
-                        mBinding.setShowProgress(false)
-                        startActivity(intentFor<MainActivity>())
-                        finish()
+
+                        doAsync {
+                            val weakReference: WeakReference<LoginActivity> = WeakReference(this@LoginActivity)
+                            var list: List<Remind>? = null
+
+                            if (weakReference.get() != null) {
+                                try {
+                                    val responseRemind: Response<List<Remind>> = ServiceGenerator.createService(RemindService::class.java)
+                                            .getListByType(Constants.TYPE_USER_REMIND).execute()
+
+                                    if (responseRemind.isSuccessful) {
+                                        list = responseRemind.body()!!
+                                        AppDatabase.getInstance().remindDao().delete()
+                                        AppDatabase.getInstance().remindDao().insert(list)
+                                    } else {
+                                        Timber.e("Error loading reminds: ${responseRemind.code()}")
+                                    }
+                                } catch (e: IOException) {
+                                    Timber.e("Failed load reminds! ${e.message}")
+                                }
+                            } else {
+                                Timber.d("LoginActivity weakReference is null!")
+                            }
+                            uiThread {
+                                mBinding.setShowProgress(false)
+                                startActivity(intentFor<MainActivity>())
+                                finish()
+                            }
+                        }
                     }
                 } else {
                     Timber.d("Wrong password or user cannot be found!")
