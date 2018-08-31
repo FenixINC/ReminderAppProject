@@ -79,6 +79,11 @@ public class VideoFragmentJava extends Fragment implements OnRemindClickListener
 
     }
 
+    @Override
+    public void onDotsClick(Remind model, int position) {
+
+    }
+
     private void setList(List<Remind> list) {
         mBinding.swipeRefresh.setRefreshing(false);
         mAdapter.setList(list);

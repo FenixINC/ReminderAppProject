@@ -101,6 +101,11 @@ class NewsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
 //        }
     }
 
+    override fun onDotsClick(model: Remind?, position: Int) {
+        Timber.d(model.toString())
+    }
+
+
     private fun refreshNewsTask() {
         doAsync {
             val weakReference: WeakReference<NewsFragment> = WeakReference(this@NewsFragment)

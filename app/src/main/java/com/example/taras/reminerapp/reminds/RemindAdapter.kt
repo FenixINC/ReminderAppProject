@@ -37,6 +37,25 @@ class RemindAdapter(listener: OnRemindClickListener) : RecyclerView.Adapter<Remi
         return mList[position]
     }
 
+    fun getList(): List<Remind> {
+        return mList
+    }
+
+    // Strange delete..
+    fun deleteRemind(remind: Remind, list: List<Remind>) {
+        val mutableList = mutableListOf(list)
+        val mutableIterator = mutableList.iterator()
+        while (mutableIterator.hasNext()) {
+            for (model in mutableIterator) {
+                if (remind == model) {
+                    mutableIterator.remove()
+                }
+            }
+        }
+        Timber.d("Deleted remind: ${remind.toString()}")
+        notifyDataSetChanged()
+    }
+
     fun setStarOn(starOn: Boolean, position: Int, remind: Remind) {
         mStarOn = if (!mStarList.contains(remind.id)) {
             mStarList.add(remind.id)

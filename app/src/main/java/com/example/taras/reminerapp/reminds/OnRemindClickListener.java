@@ -10,4 +10,6 @@ public interface OnRemindClickListener {
     void onModelClick(Remind model);
 
     void onStarClick(Remind model, int position);
+
+    void onDotsClick(Remind model, int position);
 }

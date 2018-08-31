@@ -70,4 +70,8 @@ class EventFragment : Fragment(), OnRemindClickListener {
     override fun onStarClick(model: Remind?, position: Int) {
         Timber.d(model.toString())
     }
+
+    override fun onDotsClick(model: Remind?, position: Int) {
+        Timber.d(model.toString())
+    }
 }
