@@ -7,12 +7,14 @@ import android.support.v4.app.DialogFragment
 import android.view.Window
 import android.view.WindowManager
 import com.example.taras.reminerapp.R
+import com.example.taras.reminerapp.db.AppDatabase
 import com.example.taras.reminerapp.db.Constants
 import com.example.taras.reminerapp.db.model.Remind
 import com.example.taras.reminerapp.db.service.RemindService
 import com.example.taras.reminerapp.db.service.ServiceGenerator
 import kotlinx.android.synthetic.main.fragment_create_remind.*
 import okhttp3.ResponseBody
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.alert
@@ -51,6 +53,9 @@ class DialogCreateRemind : DialogFragment() {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
                         Timber.d("Create remind response successful.")
+                        doAsync {
+                            AppDatabase.getInstance().remindDao().insert(remind)
+                        }
                         var intent = Intent()
                         intent.putExtra("is_refresh", true)
                         targetFragment?.onActivityResult(targetRequestCode, 1, intent)

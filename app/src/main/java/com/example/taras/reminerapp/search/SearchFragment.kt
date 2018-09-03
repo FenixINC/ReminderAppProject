@@ -57,9 +57,6 @@ class SearchFragment : BaseFragment(), OnRemindClickListener {
             val text: String = mBinding.editSearch.text.toString()
             if (text.length > 2) {
                 setSearchList(text)
-                if (mAdapter.itemCount == 0) {
-                    mBinding.emptyText.visibility = View.VISIBLE
-                }
             }
         }
     }
@@ -70,6 +67,11 @@ class SearchFragment : BaseFragment(), OnRemindClickListener {
             list = AppDatabase.getInstance().remindDao().getSearchList(search, search)
             uiThread {
                 mAdapter.setList(list)
+                if (mAdapter.itemCount == 0) {
+                    mBinding.emptyText.visibility = View.VISIBLE
+                } else {
+                    mBinding.emptyText.visibility = View.GONE
+                }
             }
         }
     }

@@ -199,6 +199,7 @@ class MyRemindsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
                     orientation = LinearLayout.VERTICAL
                     padding = dip(10)
 
+                    //--- Star:
                     linearLayout {
                         orientation = LinearLayout.HORIZONTAL
 
@@ -234,6 +235,7 @@ class MyRemindsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
                         topMargin = dip(10)
                     }
 
+                    //--- Update:
                     linearLayout {
                         orientation = LinearLayout.HORIZONTAL
 
@@ -270,6 +272,7 @@ class MyRemindsFragment : Fragment(), OnRemindClickListener, LifecycleObserver {
                         topMargin = dip(10)
                     }
 
+                    //--- Delete:
                     linearLayout {
                         orientation = LinearLayout.HORIZONTAL
 
